@@ -12,6 +12,8 @@ export const toolbox = {
         },
       ],
     },
+    { kind: 'sep' },
+
     {
       kind: 'category',
       name: 'Loops',
@@ -533,6 +535,19 @@ export const toolbox = {
       </block>`,
         },
       ],
+    },
+    { kind: 'sep' },
+    {
+      kind: 'category',
+      name: 'Variables',
+      colour: '#a55b80',
+      custom: 'VARIABLE',
+    },
+    {
+      kind: 'category',
+      name: 'Procedures',
+      colour: '#995ba5',
+      custom: 'PROCEDURE',
     },
   ],
 };
