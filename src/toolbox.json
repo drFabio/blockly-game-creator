@@ -1,0 +1,20 @@
+{
+    "kind": "categoryToolbox",
+    "contents": [
+      {
+        "kind": "category",
+        "name": "logic",
+        "colour": "#5b80a5",
+        "contents": [
+          {
+            "kind": "block",
+            "type": "controls_if"
+          },
+          {
+            "kind": "block",
+            "blockxml": "controls_whileUntil"
+          }
+        ]
+      }
+    ]
+  }
