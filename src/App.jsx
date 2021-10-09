@@ -7,7 +7,7 @@ import { BlocklyEditor } from './components/blocky';
 import { PAGE_APP, PAGE_CODE, PAGE_MIX } from './constants';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(PAGE_APP);
+  const [currentPage, setCurrentPage] = useState(PAGE_CODE);
 
   return (
     <Wrapper>
@@ -29,7 +29,7 @@ function App() {
           }}
           initialXml={`
 <xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="controls_ifelse" x="0" y="0"></block>
+<block type="game_setup" x="0" y="0"></block>
 </xml>
       `}
         ></BlocklyEditor>

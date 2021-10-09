@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import 'blockly';
 import 'blockly/javascript';
-
+import { gameSetup } from './custom/gameSetup';
 import Blockly from 'blockly/core';
 import locale from 'blockly/msg/en';
 import 'blockly/blocks';
+import { toolbox } from './toolbox';
 
 Blockly.setLocale(locale);
 
@@ -28,33 +29,14 @@ export const BlocklyEditor = ({ currentPage, initialXml, children: toolBox, ...p
     editorRef.current.querySelector('.blocklySvg').setAttribute('width', `${width}px`);
   }
   useEffect(() => {
+    gameSetup(Blockly);
+    workspaceRef.current = Blockly.inject(editorRef.current, {
+      toolbox,
+      ...props,
+    });
     new ResizeObserver(resizeBlockly).observe(containerRef.current);
   });
   useEffect(() => {
-    workspaceRef.current = Blockly.inject(editorRef.current, {
-      toolbox: {
-        kind: 'categoryToolbox',
-        contents: [
-          {
-            kind: 'category',
-            name: 'logic',
-            colour: '210',
-            contents: [
-              {
-                kind: 'block',
-                type: 'controls_if',
-              },
-              {
-                kind: 'block',
-                type: 'controls_whileUntil',
-              },
-            ],
-          },
-        ],
-      },
-      ...props,
-    });
-
     if (initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), workspaceRef.current);
     }
