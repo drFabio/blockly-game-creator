@@ -58,10 +58,13 @@ html {
   grid-area: game;
   background-color: pink;
 }
+
 .content-wrapper.is-code {
-  grid-template-areas: 'blockly';
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr;
+  grid-template-areas:
+    'blockly blockly blockly blockly'
+    'blockly blockly blockly blockly'
+    'blockly blockly blockly blockly'
+    'blockly blockly blockly blockly';
 }
 
 .content-wrapper.is-app {
@@ -70,6 +73,10 @@ html {
     'game game game game'
     'game game game game'
     'game game game game';
+}
+
+.content-wrapper.is-code .game-area {
+  display: none;
 }
 .content-wrapper.is-mix {
   grid-template-areas:

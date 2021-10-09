@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Wrapper } from './components/Wrapper';
 import { Navigator } from './components/Navigator';
-import { Game } from './components/Game';
+import { GameArea } from './components/game';
 import { ContentWrapper } from './components/ContentWrapper';
 import { BlocklyEditor } from './components/blocky';
 import { PAGE_APP, PAGE_CODE, PAGE_MIX } from './constants';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(PAGE_MIX);
+  const [currentPage, setCurrentPage] = useState(PAGE_APP);
 
   return (
     <Wrapper>
@@ -33,7 +33,7 @@ function App() {
 </xml>
       `}
         ></BlocklyEditor>
-        <Game></Game>
+        <GameArea />
       </ContentWrapper>
     </Wrapper>
   );
