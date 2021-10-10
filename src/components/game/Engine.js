@@ -30,7 +30,10 @@ export class Engine {
 
   proccessBlocks(code) {
     const engine = this;
+    const canvas = this.canvas;
     console.log(`Interpreting code \n${code}`);
+    this.textSizeInPercentage = 5;
+    this.textCursor = [0, 0];
     try {
       eval(code);
     } catch (error) {}
@@ -45,10 +48,16 @@ export class Engine {
 
   writeText(text) {
     const { ctx, canvas } = this;
-    ctx.font = '30px Comic Sans MS';
+    const textSize = (canvas.height * this.textSizeInPercentage) / 100;
+    ctx.font = `${textSize}px Arial`;
     ctx.fillStyle = 'red';
-    ctx.textAlign = 'center';
-    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    ctx.textAlign = 'left';
+    const [x, y] = this.textCursor;
+    console.log({ x, y, textSize });
+    ctx.fillText(text, x, y + 1 + textSize);
+    this.textCursor[1] = y + 1 + textSize;
   }
-  promptText(text) {}
+  setTextSize(size) {
+    this.textSizeInPercentage = size;
+  }
 }

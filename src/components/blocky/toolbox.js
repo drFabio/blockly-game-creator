@@ -552,6 +552,19 @@ export const toolbox = {
     </value>
   </block>`,
         },
+        {
+          kind: 'block',
+          blockxml: ` <block type="canvas_text_size">
+    <value name="textSize">
+      <shadow type="math_number">
+        <field name="NUM">3</field>
+
+      </shadow>
+    </value>
+  </block>`,
+        },
+        { kind: 'block', type: 'canvas_width' },
+        { kind: 'block', type: 'canvas_height' },
       ],
     },
     {
