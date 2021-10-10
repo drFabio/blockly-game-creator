@@ -3,7 +3,7 @@ export class Engine {
   ctx;
   textSizeInPercentage = 5;
   textCursor = [0, 0];
-
+  textColor = 'black';
   resize(width, height) {
     if (!width && !height) {
       return;
@@ -34,6 +34,7 @@ export class Engine {
     console.log(`Interpreting code \n${code}`);
     this.textSizeInPercentage = 5;
     this.textCursor = [0, 0];
+    this.textColor = 'black';
     try {
       eval(code);
     } catch (error) {}
@@ -50,7 +51,7 @@ export class Engine {
     const { ctx, canvas } = this;
     const textSize = (canvas.height * this.textSizeInPercentage) / 100;
     ctx.font = `${textSize}px Arial`;
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = this.textColor;
     ctx.textAlign = 'left';
     const [x, y] = this.textCursor;
     console.log({ x, y, textSize });
@@ -62,5 +63,9 @@ export class Engine {
   }
   setCursor(x = 0, y = 0) {
     this.textCursor = [x, y];
+  }
+
+  setTextColor(color) {
+    this.textColor = color;
   }
 }

@@ -554,6 +554,16 @@ export const toolbox = {
         },
         {
           kind: 'block',
+          blockxml: ` <block type="canvas_set_text_color">
+    <value name="textColor">
+      <shadow type="colour_picker">
+        <field name="COLOUR">#000000</field>
+      </shadow>
+    </value>
+  </block>`,
+        },
+        {
+          kind: 'block',
           blockxml: ` <block type="canvas_text_size">
     <value name="textSize">
       <shadow type="math_number">
