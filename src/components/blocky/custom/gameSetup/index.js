@@ -15,6 +15,8 @@ export const gameSetup = (Blockly) => {
     const onDownKey = Blockly.JavaScript.statementToCode(block, 'onDown');
     const onForwardKey = Blockly.JavaScript.statementToCode(block, 'onForward');
     const onBackwardKey = Blockly.JavaScript.statementToCode(block, 'onBackward');
+    const onColision = Blockly.JavaScript.statementToCode(block, 'onColision');
+    console.log({ onColision });
     // TODO: Assemble JavaScript into code variable.
     var code = `engine.setScenario(
       {
@@ -40,6 +42,9 @@ export const gameSetup = (Blockly) => {
         },
         onBackwardKey: () => {
           ${onBackwardKey}
+        },
+        onColision: () => {
+          ${onColision}
         }
       });\n`;
     return code;

@@ -643,6 +643,7 @@ export const toolbox = {
         { kind: 'block', type: 'game_obstacle' },
         { kind: 'block', type: 'game_move_obstacle_x' },
         { kind: 'block', type: 'game_move_obstacle_y' },
+        { kind: 'block', type: 'game_end_game' },
       ],
     },
   ],

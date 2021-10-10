@@ -16,6 +16,7 @@ import { gameObstacle } from './gameObstacle';
 import { gameSetPlayerPosition } from './gameSetPlayerPosition';
 import { gameMoveObstacleX } from './gameMoveObstacleX';
 import { gameMoveObstacleY } from './gameMoveObstacleY';
+import { gameEndGame } from './gameEndGame';
 
 export function initializeCustomBlocks(Blockly) {
   gameSetup(Blockly);
@@ -36,4 +37,5 @@ export function initializeCustomBlocks(Blockly) {
   gameObstacle(Blockly);
   gameMoveObstacleX(Blockly);
   gameMoveObstacleY(Blockly);
+  gameEndGame(Blockly);
 }

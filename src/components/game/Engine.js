@@ -21,7 +21,7 @@ export class Engine {
   isGameRunning = false;
   playerPosition = [10, 10];
   playerSize = 10;
-  renderignObstacle = false;
+  withinObstacleGuard = false;
   obstacles = [];
   gameInterval;
   handleStart() {
@@ -87,8 +87,11 @@ export class Engine {
     document.addEventListener('keydown', this.listenToKeys.bind(this));
   }
   tearDown() {
-    window.clearInterval(this.gameInterval);
+    this.clearGameLoop();
     document.removeEventListener('keydown', this.listenToKeys.bind(this));
+  }
+  clearGameLoop() {
+    window.clearInterval(this.gameInterval);
   }
   drawImage(src, x, y, width = undefined, height = undefined) {
     const drawing = new Image();
@@ -230,15 +233,15 @@ export class Engine {
     this.drawBackground();
     this.renderPlayer();
     this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
-      this.drawRectangle(x, y, recWidth, recHeight, color);
+      this.drawRectangle(x, y, recWidth, recHeight, color, true);
     });
   }
-  drawRectangle(x, y, recWidth, recHeight, color) {
+  drawRectangle(x, y, recWidth, recHeight, color, forceObstacle) {
     const { ctx, canvas } = this;
     const { height, width } = canvas;
-
+    const isObstacle = forceObstacle || this.withinObstacleGuard;
     ctx.fillStyle = color;
-    if (this.renderignObstacle) {
+    if (this.withinObstacleGuard) {
       this.obstacles.push({ x, y, recWidth, recHeight, color });
     }
     const absoluteX = (x * width) / 100;
@@ -246,12 +249,38 @@ export class Engine {
     const absoluteWidth = (recWidth * width) / 100;
     const absoluteHeight = (recHeight * height) / 100;
     ctx.fillRect(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
+
+    if (isObstacle) {
+      this.checkColision(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
+    }
+  }
+
+  checkColision(obstacleX, obstacleY, obstacleWidth, obstacleHeight) {
+    const { canvas } = this;
+    const size = (canvas.height * this.playerSize) / 100;
+    const [percentX, percentY] = this.playerPosition;
+    // position is always in porcentages
+    const x = Math.min(canvas.width, Math.max(0, (canvas.width * percentX) / 100 - size / 2));
+    const y = Math.min(canvas.height, Math.max(0, (canvas.height * percentY) / 100 - size / 2));
+
+    if (
+      x < obstacleX + obstacleWidth &&
+      x + size > obstacleX &&
+      y < obstacleY + obstacleHeight &&
+      size + y > obstacleY
+    ) {
+      this.intepretCode(this.scenario.onColision());
+
+      console.log('Colisao!');
+    } else {
+      console.log('SEM COLISAO', { x, y, size, obstacleX, obstacleY, obstacleWidth, obstacleHeight });
+    }
   }
   setObstacles(obstacleRender) {
     if (!obstacleRender) return;
-    this.renderignObstacle = true;
+    this.withinObstacleGuard = true;
     obstacleRender();
-    this.renderignObstacle = false;
+    this.withinObstacleGuard = false;
   }
   moveObstacleX(deltaX) {
     const { width } = this.canvas;
@@ -284,5 +313,10 @@ export class Engine {
       }
     });
     this.obstacles = newObstacles;
+  }
+  endGame() {
+    this.clearGameLoop();
+
+    this.intepretCode(this.scenario.onEnd());
   }
 }

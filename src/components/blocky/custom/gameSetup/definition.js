@@ -3,7 +3,7 @@ export const definition = {
   colour: '#FFAABB',
   hat: 'cap',
   message0:
-    'Game setup %1 initial speed %2 %3 player %4 on start %5 on update %6 on end %7 on up key %8 on down key %9 on forward key %10 on back key %11',
+    'Game setup %1 initial speed %2 %3 player %4 on start %5 on update %6 on end %7 on colision %8 on up key %9 on down key %10 on forward key %11 on back key %12',
   args0: [
     {
       type: 'input_dummy',
@@ -32,6 +32,10 @@ export const definition = {
     {
       type: 'input_statement',
       name: 'onEnd',
+    },
+    {
+      type: 'input_statement',
+      name: 'onColision',
     },
     {
       type: 'input_statement',

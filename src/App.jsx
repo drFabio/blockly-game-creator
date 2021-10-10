@@ -25,7 +25,7 @@ function App() {
             trashcan={true}
             currentPage={currentPage}
             move={{
-              scrollbars: false,
+              scrollbars: true,
               drag: true,
               wheel: true,
             }}
