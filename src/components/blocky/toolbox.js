@@ -3,21 +3,6 @@ export const toolbox = {
   contents: [
     {
       kind: 'category',
-      name: 'game',
-      colour: '#FFAABB',
-      contents: [
-        {
-          kind: 'block',
-          type: 'game_setup',
-        },
-        { kind: 'block', type: 'game_duck' },
-        { kind: 'block', type: 'game_chicken' },
-      ],
-    },
-    { kind: 'sep' },
-
-    {
-      kind: 'category',
       name: 'Loops',
       colour: '#5ba55b',
       contents: [
@@ -371,7 +356,7 @@ export const toolbox = {
         </value>
       </block>`,
         },
-        {
+        /*       {
           kind: 'block',
           blockxml: `    <block type="text_prompt_ext">
         <mutation type="TEXT"></mutation>
@@ -382,7 +367,7 @@ export const toolbox = {
           </shadow>
         </value>
       </block>`,
-        },
+        }, */
       ],
     },
     {
@@ -550,6 +535,37 @@ export const toolbox = {
       name: 'Procedures',
       colour: '#995ba5',
       custom: 'PROCEDURE',
+    },
+    { kind: 'sep' },
+    {
+      kind: 'category',
+      name: 'canvas',
+      colour: '#6600cc',
+      contents: [
+        {
+          kind: 'block',
+          blockxml: ` <block type="canvas_background_color">
+    <value name="backgroundColor">
+      <shadow type="colour_picker">
+        <field name="COLOUR">#33ccff</field>
+      </shadow>
+    </value>
+  </block>`,
+        },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'game',
+      colour: '#FFAABB',
+      contents: [
+        {
+          kind: 'block',
+          type: 'game_setup',
+        },
+        { kind: 'block', type: 'game_duck' },
+        { kind: 'block', type: 'game_chicken' },
+      ],
     },
   ],
 };

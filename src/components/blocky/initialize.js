@@ -25,8 +25,9 @@ export function initialize(editor, setGetJsCode, { initialXml, ...props }) {
     setGetJsCode(Blockly.JavaScript.workspaceToCode(workspace));
   };
   const savedXML = localStorage.getItem(`blocklySavedWorkspace`);
-  workspace.addChangeListener(debounce(onChange, 1000));
+  workspace.addChangeListener(debounce(onChange, 500));
   Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(savedXML || initialXml), workspace);
+  setGetJsCode(Blockly.JavaScript.workspaceToCode(workspace));
 
   return workspace;
 }

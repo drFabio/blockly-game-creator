@@ -33,7 +33,6 @@ html {
 
 .content-wrapper {
   flex-grow: 1;
-  background-color: aqua;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -43,7 +42,6 @@ html {
   width: 100%;
   grid-area: blockly;
   position: relative;
-  background-color: gold;
 }
 #blocklyDiv {
   position: absolute;
@@ -55,7 +53,7 @@ html {
   height: 100%;
   width: 100%;
   grid-area: game;
-  background-color: pink;
+  background-color: whitesmoke;
 }
 
 .content-wrapper.is-code {
@@ -86,4 +84,7 @@ html {
 }
 * {
   box-sizing: border-box;
+}
+canvas {
+  background-color: black;
 }

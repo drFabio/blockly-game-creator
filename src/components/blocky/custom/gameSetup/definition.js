@@ -42,6 +42,8 @@ export const definition = {
     },
   ],
   inputsInline: false,
+  previousStatement: null,
+  nextStatement: null,
   tooltip: 'Configures the game settings',
   helpUrl: '',
 };
