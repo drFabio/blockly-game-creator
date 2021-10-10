@@ -565,6 +565,23 @@ export const toolbox = {
         },
         { kind: 'block', type: 'canvas_width' },
         { kind: 'block', type: 'canvas_height' },
+        {
+          kind: 'block',
+          blockxml: `<block type="canvas_set_cursor">
+          <value name="x">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+      
+            </shadow>
+          </value>
+          <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+    
+          </shadow>
+        </value>
+        </block>`,
+        },
       ],
     },
     {

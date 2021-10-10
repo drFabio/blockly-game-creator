@@ -60,4 +60,7 @@ export class Engine {
   setTextSize(size) {
     this.textSizeInPercentage = size;
   }
+  setCursor(x = 0, y = 0) {
+    this.textCursor = [x, y];
+  }
 }
