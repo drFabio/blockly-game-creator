@@ -574,6 +574,37 @@ export const toolbox = {
     </value>
   </block>`,
         },
+        {
+          kind: 'block',
+          blockxml: ` <block type="canvas_draw_rectangle">
+          <value name="color">
+          <shadow type="colour_picker">
+            <field name="COLOUR">#00FF00</field>
+          </shadow>
+          
+        </value>
+        <value name="x">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="y">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="width">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+      <value name="height">
+        <shadow type="math_number">
+          <field name="NUM">35</field>
+        </shadow>
+      </value>
+  </block>`,
+        },
         { kind: 'block', type: 'canvas_width' },
         { kind: 'block', type: 'canvas_height' },
         {

@@ -224,4 +224,12 @@ export class Engine {
     this.drawBackground();
     this.renderPlayer();
   }
+  drawRectangle(x, y, recWidth, recHeight, color) {
+    const { ctx, canvas } = this;
+    const { height, width } = canvas;
+
+    ctx.fillStyle = color;
+    console.log((x * width) / 100, (y * height) / 100, (recWidth * width) / 100, (recHeight * height) / 100);
+    ctx.fillRect((x * width) / 100, (y * height) / 100, (recWidth * width) / 100, (recHeight * height) / 100);
+  }
 }
