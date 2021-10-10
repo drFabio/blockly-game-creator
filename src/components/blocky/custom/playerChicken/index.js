@@ -7,7 +7,7 @@ export const playerChicken = (Blockly) => {
   };
   Blockly.JavaScript['game_chicken'] = function (block) {
     // TODO: Assemble JavaScript into code variable.
-    var code = '...;\n';
+    var code = 'PLAYER_CHICKEN';
     return code;
   };
 };

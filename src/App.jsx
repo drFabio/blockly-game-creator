@@ -35,7 +35,7 @@ function App() {
 </xml>
       `}
           ></BlocklyEditor>
-          <GameArea />
+          <GameArea currentPage={currentPage} />
         </ContentWrapper>
       </Wrapper>
     </WorkspaceContext.Provider>

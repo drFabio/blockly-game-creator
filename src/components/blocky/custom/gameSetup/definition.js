@@ -3,7 +3,7 @@ export const definition = {
   colour: '#FFAABB',
   hat: 'cap',
   message0:
-    'Game setup %1 initial speed %2 %3 player %4 on update %5 on up key %6 on down key %7 on forward key %8 on back key %9',
+    'Game setup %1 initial speed %2 %3 player %4 on start %5 on update %6 on end %7 on up key %8 on down key %9 on forward key %10 on back key %11',
   args0: [
     {
       type: 'input_dummy',
@@ -19,10 +19,19 @@ export const definition = {
     {
       type: 'input_statement',
       name: 'player',
+      check: ['game_duck', 'game_chicken'],
+    },
+    {
+      type: 'input_statement',
+      name: 'onStart',
     },
     {
       type: 'input_statement',
       name: 'onUpdate',
+    },
+    {
+      type: 'input_statement',
+      name: 'onEnd',
     },
     {
       type: 'input_statement',

@@ -8,6 +8,7 @@ import { canvasWidth } from './canvasWidth';
 import { canvasHeight } from './canvasHeight';
 import { canvasSetTextColor } from './canvasSetTextColor';
 import { canvasSetCursor } from './canvasSetCursor';
+import { canvasSetTextAlign } from './canvasSetTextAlign';
 
 export function initializeCustomBlocks(Blockly) {
   gameSetup(Blockly);
@@ -19,5 +20,6 @@ export function initializeCustomBlocks(Blockly) {
   canvasWidth(Blockly);
   canvasHeight(Blockly);
   canvasSetCursor(Blockly);
+  canvasSetTextAlign(Blockly);
   canvasSetTextColor(Blockly);
 }

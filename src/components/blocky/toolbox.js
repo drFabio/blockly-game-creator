@@ -562,6 +562,7 @@ export const toolbox = {
     </value>
   </block>`,
         },
+        { kind: 'block', type: 'canvas_set_text_align' },
         {
           kind: 'block',
           blockxml: ` <block type="canvas_text_size">

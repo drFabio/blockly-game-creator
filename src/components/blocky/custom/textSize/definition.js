@@ -10,7 +10,7 @@ export const definition = {
   ],
   previousStatement: null,
   nextStatement: null,
-  colour: 330,
+  colour: '#6600cc',
   tooltip: '',
   helpUrl: '',
 };

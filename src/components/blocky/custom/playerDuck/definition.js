@@ -13,9 +13,8 @@ export const definition = {
       flipRtl: false,
     },
   ],
-  colour: 230,
+  colour: '#FFAABB',
   tooltip: '',
   helpUrl: '',
   previousStatement: null,
-  nextStatement: null,
 };

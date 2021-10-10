@@ -16,7 +16,7 @@ export const definition = {
       check: 'Number',
     },
   ],
-  colour: 230,
+  colour: '#6600cc',
   tooltip: '',
   helpUrl: '',
   previousStatement: null,
