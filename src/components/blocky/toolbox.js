@@ -10,6 +10,8 @@ export const toolbox = {
           kind: 'block',
           type: 'game_setup',
         },
+        { kind: 'block', type: 'game_duck' },
+        { kind: 'block', type: 'game_chicken' },
       ],
     },
     { kind: 'sep' },

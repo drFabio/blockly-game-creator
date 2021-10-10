@@ -14,7 +14,7 @@ export const gameSetup = (Blockly) => {
     const statements_onforward = Blockly.JavaScript.statementToCode(block, 'onForward');
     const statements_onbackward = Blockly.JavaScript.statementToCode(block, 'onBackward');
     // TODO: Assemble JavaScript into code variable.
-    var code = '...;\n';
+    var code = '/** Game should be hre**/;\n';
     return code;
   };
 };

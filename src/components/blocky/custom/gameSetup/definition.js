@@ -1,6 +1,7 @@
 export const definition = {
   type: 'game_setup',
   colour: '#FFAABB',
+  hat: 'cap',
   message0:
     'Game setup %1 initial speed %2 %3 player %4 on update %5 on up key %6 on down key %7 on forward key %8 on back key %9',
   args0: [
