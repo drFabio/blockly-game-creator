@@ -18,12 +18,42 @@ export class Engine {
   customCursor = false;
   scenario = {};
   currentCode;
-
+  isGameRunning = false;
+  playerPosition = [10, 10];
+  playerSize = 10;
   handleStart() {
     console.log(`Will start interactions`);
     this.proccessBlocks(this.currentCode);
   }
-  listenToKeys() {}
+  startGame() {
+    if (this.scenario && !this.isGameRunning) {
+      this.isGameRunning = true;
+    }
+  }
+  listenToKeys(ev) {
+    if (ev.code === 'Enter') {
+      this.startGame();
+    }
+    const { scenario, canvas } = this;
+    const engine = this;
+    if (!this.isGameRunning) return;
+    try {
+      if (ev.code === 'ArrowUp') {
+        eval(scenario.onUpKey());
+      }
+      if (ev.code === 'ArrowDown') {
+        eval(scenario.onDownKey());
+      }
+      if (ev.code === 'ArrowRight') {
+        console.log('right');
+      }
+      if (ev.code === 'ArrowLeft') {
+        console.log('left');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   resize(width, height) {
     if (!width && !height) {
       return;
@@ -40,12 +70,16 @@ export class Engine {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.ctx.font = '20px arial';
+    document.addEventListener('keydown', this.listenToKeys.bind(this));
+  }
+  tearDown() {
+    document.removeEventListener('keydown', this.listenToKeys.bind(this));
   }
   drawImage(src, x, y, width = undefined, height = undefined) {
     const drawing = new Image();
     drawing.src = src; // can also be a remote URL e.g. http://
     drawing.onload = () => {
-      this.ctx.drawImage(drawing, x, y, drawing.width, drawing.height, 0, 0, width, height);
+      this.ctx.drawImage(drawing, 0, 0, drawing.width, drawing.height, x, y, width, height);
     };
   }
 
@@ -59,9 +93,13 @@ export class Engine {
     this.textColor = 'black';
     this.textAlign = 'left';
     this.customCursor = false;
+    this.playerPosition = [10, 10];
+    this.playerSize = 10;
     try {
       eval(code);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   drawBackground(color) {
@@ -118,22 +156,44 @@ export class Engine {
   }
 
   setScenario(scenario) {
-    this.scenario = { playerSize: 10, ...scenario };
+    this.scenario = { ...scenario };
     const { player } = scenario;
     console.log({ player });
     this.renderGame(this.scenario);
   }
 
   renderGame(scenario) {
-    const { canvas } = this;
-    const { player, playerSize } = scenario;
-    console.log(`rendering the game`, scenario);
-    if (!player) {
-      console.log(`No game without a  player`);
-      return;
+    try {
+      const { player } = scenario;
+      console.log(`rendering the game`, scenario);
+      if (!player) {
+        console.log(`No game without a  player`);
+        return;
+      }
+      this.renderPlayer(scenario);
+    } catch (error) {
+      console.error(error);
     }
-    const size = (canvas.height * playerSize) / 100;
-    console.log({ size, image: imageMap[player] });
-    this.drawImage(imageMap[player], 10, 10, size, size);
+  }
+  getPlayerX() {
+    return this.playerPosition[0];
+  }
+  getPlayerY() {
+    return this.playerPosition[1];
+  }
+  setPlayerPosition(x, y) {
+    this.playerPosition = [x, y];
+    console.log(`Setting player to ${(x, y)}`);
+    this.renderPlayer();
+  }
+  renderPlayer(scenario) {
+    const { player } = scenario || this.scenario;
+
+    const { canvas, ctx } = this;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const size = (canvas.height * this.playerSize) / 100;
+    const [x, y] = this.playerPosition;
+    this.drawImage(imageMap[player], x, y, size, size);
   }
 }

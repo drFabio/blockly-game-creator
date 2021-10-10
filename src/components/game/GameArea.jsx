@@ -26,6 +26,9 @@ export const GameArea = ({ currentPage }) => {
   useEffect(() => {
     engineRef.current = new Engine(canvasRef.current);
     resizeCanvas();
+    return () => {
+      engineRef.current.tearDown();
+    };
     //  engineRef.current.drawImage(duckImage, 10, 10, 50, 50);
   }, []);
 

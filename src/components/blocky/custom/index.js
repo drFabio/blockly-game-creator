@@ -9,6 +9,9 @@ import { canvasHeight } from './canvasHeight';
 import { canvasSetTextColor } from './canvasSetTextColor';
 import { canvasSetCursor } from './canvasSetCursor';
 import { canvasSetTextAlign } from './canvasSetTextAlign';
+import { playerX } from './playerX';
+import { playerY } from './playerY';
+import { gameSetPlayerPosition } from './gameSetPlayerPosition';
 
 export function initializeCustomBlocks(Blockly) {
   gameSetup(Blockly);
@@ -22,4 +25,7 @@ export function initializeCustomBlocks(Blockly) {
   canvasSetCursor(Blockly);
   canvasSetTextAlign(Blockly);
   canvasSetTextColor(Blockly);
+  playerY(Blockly);
+  playerX(Blockly);
+  gameSetPlayerPosition(Blockly);
 }
