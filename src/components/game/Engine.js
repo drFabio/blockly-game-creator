@@ -21,6 +21,7 @@ export class Engine {
   isGameRunning = false;
   playerPosition = [10, 10];
   playerSize = 10;
+  gameInterval;
   handleStart() {
     console.log(`Will start interactions`);
     this.proccessBlocks(this.currentCode);
@@ -28,21 +29,31 @@ export class Engine {
   startGame() {
     if (this.scenario && !this.isGameRunning) {
       this.isGameRunning = true;
+      try {
+        console.log(`Calling onStart`, this.scenario.onStart);
+        this.intepretCode(this.scenario.onStart());
+        this.renderFrame();
+        this.gameInterval = setInterval(() => {
+          this.intepretCode(this.scenario.onUpdate());
+          this.renderFrame();
+        }, this.scenario.initialSpeed || 500);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
   listenToKeys(ev) {
     if (ev.code === 'Enter') {
       this.startGame();
     }
-    const { scenario, canvas } = this;
-    const engine = this;
+    const { scenario } = this;
     if (!this.isGameRunning) return;
     try {
       if (ev.code === 'ArrowUp') {
-        eval(scenario.onUpKey());
+        this.intepretCode(scenario.onUpKey());
       }
       if (ev.code === 'ArrowDown') {
-        eval(scenario.onDownKey());
+        this.intepretCode(scenario.onDownKey());
       }
       if (ev.code === 'ArrowRight') {
         console.log('right');
@@ -73,6 +84,7 @@ export class Engine {
     document.addEventListener('keydown', this.listenToKeys.bind(this));
   }
   tearDown() {
+    window.clearInterval(this.gameInterval);
     document.removeEventListener('keydown', this.listenToKeys.bind(this));
   }
   drawImage(src, x, y, width = undefined, height = undefined) {
@@ -95,6 +107,11 @@ export class Engine {
     this.customCursor = false;
     this.playerPosition = [10, 10];
     this.playerSize = 10;
+    this.intepretCode(code);
+  }
+  intepretCode(code) {
+    const engine = this;
+    const canvas = this.canvas;
     try {
       eval(code);
     } catch (error) {
@@ -103,9 +120,12 @@ export class Engine {
   }
 
   drawBackground(color) {
+    if (!color) {
+      color = this.backgroundColor;
+    }
     const { ctx, size } = this;
     ctx.fillStyle = color;
-    console.log({ color, size });
+    this.backgroundColor = color;
     ctx.fillRect(0, 0, size, size);
   }
 
@@ -170,7 +190,7 @@ export class Engine {
         console.log(`No game without a  player`);
         return;
       }
-      this.renderPlayer(scenario);
+      this.renderFrame();
     } catch (error) {
       console.error(error);
     }
@@ -184,16 +204,24 @@ export class Engine {
   setPlayerPosition(x, y) {
     this.playerPosition = [x, y];
     console.log(`Setting player to ${(x, y)}`);
-    this.renderPlayer();
   }
   renderPlayer(scenario) {
     const { player } = scenario || this.scenario;
 
     const { canvas, ctx } = this;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const size = (canvas.height * this.playerSize) / 100;
-    const [x, y] = this.playerPosition;
+    const [percentX, percentY] = this.playerPosition;
+    // position is always in porcentages
+    const x = Math.min(canvas.width, Math.max(0, (canvas.width * percentX) / 100 - size / 2));
+    const y = Math.min(canvas.height, Math.max(0, (canvas.height * percentY) / 100 - size / 2));
     this.drawImage(imageMap[player], x, y, size, size);
+  }
+
+  renderFrame() {
+    const { ctx, canvas } = this;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.drawBackground();
+    this.renderPlayer();
   }
 }
