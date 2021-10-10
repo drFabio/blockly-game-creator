@@ -38,7 +38,7 @@ export const gameSetup = (Blockly) => {
         onForwardKey: () => {
           ${onForwardKey}
         },
-        onBackwardKe: () => {
+        onBackwardKey: () => {
           ${onBackwardKey}
         }
       });\n`;

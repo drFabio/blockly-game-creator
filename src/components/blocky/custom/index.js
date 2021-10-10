@@ -12,7 +12,10 @@ import { canvasDrawRectangle } from './canvasDrawRectangle';
 import { canvasSetTextAlign } from './canvasSetTextAlign';
 import { playerX } from './playerX';
 import { playerY } from './playerY';
+import { gameObstacle } from './gameObstacle';
 import { gameSetPlayerPosition } from './gameSetPlayerPosition';
+import { gameMoveObstacleX } from './gameMoveObstacleX';
+import { gameMoveObstacleY } from './gameMoveObstacleY';
 
 export function initializeCustomBlocks(Blockly) {
   gameSetup(Blockly);
@@ -30,4 +33,7 @@ export function initializeCustomBlocks(Blockly) {
   playerY(Blockly);
   playerX(Blockly);
   gameSetPlayerPosition(Blockly);
+  gameObstacle(Blockly);
+  gameMoveObstacleX(Blockly);
+  gameMoveObstacleY(Blockly);
 }

@@ -21,6 +21,8 @@ export class Engine {
   isGameRunning = false;
   playerPosition = [10, 10];
   playerSize = 10;
+  renderignObstacle = false;
+  obstacles = [];
   gameInterval;
   handleStart() {
     console.log(`Will start interactions`);
@@ -29,6 +31,7 @@ export class Engine {
   startGame() {
     if (this.scenario && !this.isGameRunning) {
       this.isGameRunning = true;
+      this.obstacles = [];
       try {
         console.log(`Calling onStart`, this.scenario.onStart);
         this.intepretCode(this.scenario.onStart());
@@ -56,10 +59,10 @@ export class Engine {
         this.intepretCode(scenario.onDownKey());
       }
       if (ev.code === 'ArrowRight') {
-        console.log('right');
+        this.intepretCode(scenario.onForwardKey());
       }
       if (ev.code === 'ArrowLeft') {
-        console.log('left');
+        this.intepretCode(scenario.onBackwardKe());
       }
     } catch (error) {
       console.error(error);
@@ -122,6 +125,9 @@ export class Engine {
   drawBackground(color) {
     if (!color) {
       color = this.backgroundColor;
+    }
+    if (!color) {
+      return;
     }
     const { ctx, size } = this;
     ctx.fillStyle = color;
@@ -223,13 +229,60 @@ export class Engine {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.drawBackground();
     this.renderPlayer();
+    this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
+      this.drawRectangle(x, y, recWidth, recHeight, color);
+    });
   }
   drawRectangle(x, y, recWidth, recHeight, color) {
     const { ctx, canvas } = this;
     const { height, width } = canvas;
 
     ctx.fillStyle = color;
-    console.log((x * width) / 100, (y * height) / 100, (recWidth * width) / 100, (recHeight * height) / 100);
-    ctx.fillRect((x * width) / 100, (y * height) / 100, (recWidth * width) / 100, (recHeight * height) / 100);
+    if (this.renderignObstacle) {
+      this.obstacles.push({ x, y, recWidth, recHeight, color });
+    }
+    const absoluteX = (x * width) / 100;
+    const absoluteY = (y * height) / 100;
+    const absoluteWidth = (recWidth * width) / 100;
+    const absoluteHeight = (recHeight * height) / 100;
+    ctx.fillRect(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
+  }
+  setObstacles(obstacleRender) {
+    if (!obstacleRender) return;
+    this.renderignObstacle = true;
+    obstacleRender();
+    this.renderignObstacle = false;
+  }
+  moveObstacleX(deltaX) {
+    const { width } = this.canvas;
+
+    const newObstacles = [];
+    this.obstacles.forEach(({ x, recWidth, ...other }, index) => {
+      const obstacle = { x: x + deltaX, recWidth, ...other };
+      const absoluteX = (x * width) / 100;
+      const absoluteWidth = (recWidth * width) / 100;
+      if (absoluteX + absoluteWidth > 0) {
+        newObstacles.push(obstacle);
+      } else {
+        console.log(`removing obstacle`);
+      }
+    });
+    this.obstacles = newObstacles;
+  }
+  moveObstacleY(deltaY) {
+    const { height } = this.canvas;
+
+    const newObstacles = [];
+    this.obstacles.forEach(({ y, recHeight, ...other }, index) => {
+      const obstacle = { y: y + deltaY, recHeight, ...other };
+      const absoluteY = (y * height) / 100;
+      const absoluteHeight = (recHeight * height) / 100;
+      if (absoluteY + absoluteHeight > 0) {
+        newObstacles.push(obstacle);
+      } else {
+        console.log(`removing obstacle`);
+      }
+    });
+    this.obstacles = newObstacles;
   }
 }
