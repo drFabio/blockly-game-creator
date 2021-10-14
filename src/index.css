@@ -56,6 +56,12 @@ html {
   background-color: whitesmoke;
 }
 
+.settings {
+  height: 100%;
+  width: 100%;
+  grid-area: settings;
+  background-color: whitesmoke;
+}
 .content-wrapper.is-code {
   grid-template-areas:
     'blockly blockly blockly blockly'
@@ -63,7 +69,13 @@ html {
     'blockly blockly blockly blockly'
     'blockly blockly blockly blockly';
 }
-
+.content-wrapper.is-settings {
+  grid-template-areas:
+    'settings settings settings settings'
+    'settings settings settings settings'
+    'settings settings settings settings'
+    'settings settings settings settings';
+}
 .content-wrapper.is-app {
   grid-template-areas:
     'game game game game'
@@ -72,9 +84,6 @@ html {
     'game game game game';
 }
 
-.content-wrapper.is-code .game-area {
-  display: none;
-}
 .content-wrapper.is-mix {
   grid-template-areas:
     'blockly blockly game game'

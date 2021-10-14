@@ -22,13 +22,17 @@ export const GameArea = ({ currentPage }) => {
     engineRef.current.resize(width, height);
   }
   useEffect(() => {
+    if (engineRef.current) return;
     engineRef.current = new Engine(canvasRef.current);
     resizeCanvas();
+    engineRef.current.proccessBlocks(getJsCode);
+
     return () => {
       engineRef.current.tearDown();
     };
+
     //  engineRef.current.drawImage(duckImage, 10, 10, 50, 50);
-  }, []);
+  }, [getJsCode]);
 
   useEffect(() => {
     window.addEventListener('resize', resizeCanvas);
@@ -36,9 +40,7 @@ export const GameArea = ({ currentPage }) => {
   }, []);
   useEffect(() => {
     if (!containerRef.current) return;
-    if (currentPage !== PAGE_CODE) {
-      resizeCanvas();
-    }
+    resizeCanvas();
   }, [currentPage]);
   return (
     <div className="game-area" ref={containerRef}>

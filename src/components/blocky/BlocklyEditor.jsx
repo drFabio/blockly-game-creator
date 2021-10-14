@@ -9,7 +9,7 @@ export const BlocklyEditor = ({ currentPage, children: toolBox, ...props }) => {
   let workspaceRef = useRef();
   const { setGetJsCode } = useContext(WorkspaceContext);
   function resizeBlockly() {
-    if (!workspaceRef.current) {
+    if (!workspaceRef.current || !containerRef.current) {
       return;
     }
 
