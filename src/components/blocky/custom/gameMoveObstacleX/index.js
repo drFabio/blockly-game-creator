@@ -10,6 +10,6 @@ export const gameMoveObstacleX = (Blockly) => {
     // TODO: Assemble JavaScript into code variable.
     const x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Change ORDER_NONE to the correct strength.
-    return `engine.moveObstacleX(${x})`;
+    return `engine.moveObstacleX(${x});`;
   };
 };

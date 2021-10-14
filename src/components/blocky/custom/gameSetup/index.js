@@ -7,6 +7,7 @@ export const gameSetup = (Blockly) => {
   };
   Blockly.JavaScript['game_setup'] = function (block) {
     const initialSpeed = block.getFieldValue('initialSpeedDefault');
+    const enemyGenerationSpeed = block.getFieldValue('enemyGenerationSpeed');
     const player = Blockly.JavaScript.statementToCode(block, 'player');
     var onStart = Blockly.JavaScript.statementToCode(block, 'onStart');
     var onUpdate = Blockly.JavaScript.statementToCode(block, 'onUpdate');
@@ -16,12 +17,15 @@ export const gameSetup = (Blockly) => {
     const onForwardKey = Blockly.JavaScript.statementToCode(block, 'onForward');
     const onBackwardKey = Blockly.JavaScript.statementToCode(block, 'onBackward');
     const onColision = Blockly.JavaScript.statementToCode(block, 'onColision');
+    const onEnemyGeneration = Blockly.JavaScript.statementToCode(block, 'onEnemyGeneration');
+
     console.log({ onColision });
     // TODO: Assemble JavaScript into code variable.
-    var code = `engine.setScenario(
+    const code = `engine.setScenario(
       {
         initialSpeed: ${initialSpeed},
-        player: ${player},
+        enemyGenerationSpeed: ${enemyGenerationSpeed},
+        player: ${player || 'null'},
         onStart: () => {
           ${onStart}
         },
@@ -30,6 +34,9 @@ export const gameSetup = (Blockly) => {
         },
         onEnd: () => {
           ${onEnd}
+        },
+        onEnemyGeneration: () => {
+          ${onEnemyGeneration}
         },
         onUpKey: () => {
           ${onUpKey}

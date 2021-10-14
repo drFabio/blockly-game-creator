@@ -24,6 +24,7 @@ export class Engine {
   withinObstacleGuard = false;
   obstacles = [];
   gameInterval;
+  enemyInterval;
   handleStart() {
     console.log(`Will start interactions`);
     this.proccessBlocks(this.currentCode);
@@ -40,6 +41,10 @@ export class Engine {
           this.intepretCode(this.scenario.onUpdate());
           this.renderFrame();
         }, this.scenario.initialSpeed || 500);
+        this.enemyInterval = setInterval(() => {
+          this.intepretCode(this.scenario.onEnemyGeneration());
+          this.renderFrame();
+        }, this.scenario.enemyGenerationSpeed || 500);
       } catch (error) {
         console.error(error);
       }
@@ -62,7 +67,7 @@ export class Engine {
         this.intepretCode(scenario.onForwardKey());
       }
       if (ev.code === 'ArrowLeft') {
-        this.intepretCode(scenario.onBackwardKe());
+        this.intepretCode(scenario.onBackwardKey());
       }
     } catch (error) {
       console.error(error);
@@ -92,6 +97,7 @@ export class Engine {
   }
   clearGameLoop() {
     window.clearInterval(this.gameInterval);
+    window.clearInterval(this.enemyInterval);
   }
   drawImage(src, x, y, width = undefined, height = undefined) {
     const drawing = new Image();
@@ -116,12 +122,17 @@ export class Engine {
     this.intepretCode(code);
   }
   intepretCode(code) {
+    'use strict';
+
     const engine = this;
     const canvas = this.canvas;
-    try {
-      eval(code);
-    } catch (error) {
-      console.error(error);
+    if (engine && canvas) {
+      // Useless if so optimization does not stip it
+      try {
+        eval(code);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -213,6 +224,7 @@ export class Engine {
   setPlayerPosition(x, y) {
     this.playerPosition = [x, y];
     console.log(`Setting player to ${(x, y)}`);
+    this.renderFrame();
   }
   renderPlayer(scenario) {
     const { player } = scenario || this.scenario;

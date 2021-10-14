@@ -17,14 +17,15 @@ export function initialize(editor, setGetJsCode, { initialXml, ...props }) {
     toolbox,
     ...props,
   });
+  const localStorageKey = 'blocklySavedWorkspace_2'; // 'blocklySavedWorkspace'
 
   const onChange = (event) => {
     const xml = Blockly.Xml.workspaceToDom(workspace);
     const text = Blockly.Xml.domToText(xml);
-    localStorage.setItem(`blocklySavedWorkspace`, text);
+    localStorage.setItem(localStorageKey, text);
     setGetJsCode(Blockly.JavaScript.workspaceToCode(workspace));
   };
-  const savedXML = localStorage.getItem(`blocklySavedWorkspace`);
+  const savedXML = localStorage.getItem(localStorageKey);
   workspace.addChangeListener(debounce(onChange, 500));
   Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(savedXML || initialXml), workspace);
   setGetJsCode(Blockly.JavaScript.workspaceToCode(workspace));

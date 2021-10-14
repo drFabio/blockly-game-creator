@@ -1,9 +1,7 @@
-import { useRef, useEffect, useContext } from 'react';
-import { Engine } from './Engine';
-import { WorkspaceContext } from '../../WorkspaceContext';
+import { useContext, useEffect, useRef } from 'react';
 import { PAGE_CODE } from '../../constants';
-
-import duckImage from '/images/duck.png';
+import { WorkspaceContext } from '../../WorkspaceContext';
+import { Engine } from './Engine';
 
 export const GameArea = ({ currentPage }) => {
   const containerRef = useRef();
