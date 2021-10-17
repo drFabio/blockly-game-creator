@@ -29,7 +29,9 @@ export class Engine {
   playerPosition = [10, 10];
   playerSize = 10;
   withinObstacleGuard = false;
+  withinTargetGuard = false;
   obstacles = [];
+  targets = [];
   gameHud = [];
   gameInterval;
   enemyInterval;
@@ -49,6 +51,7 @@ export class Engine {
     console.log(`Starting game`);
     this.isGameRunning = true;
     this.obstacles = [];
+    this.targets = [];
     this.gameHud = [];
     try {
       console.log(`Calling onStart`, this.scenario.onStart);
@@ -63,9 +66,13 @@ export class Engine {
         this.renderFrame();
       }, this.scenario.initialSpeed || 100);
       this.enemyInterval = setInterval(() => {
-        this.intepretCode(this.scenario.onEnemyGeneration());
+        this.intepretCode(this.scenario?.onEnemyGeneration());
         //this.renderFrame();
       }, this.scenario.enemyGenerationSpeed || 500);
+      this.targetGenerationInterval = setInterval(() => {
+        this.intepretCode(this.scenario?.onTargetGenerated());
+        //this.renderFrame();
+      }, this.scenario.targetGenerationSpeed || 500);
     } catch (error) {
       console.error(error);
     }
@@ -121,6 +128,7 @@ export class Engine {
   clearGameLoop() {
     window.clearInterval(this.renderInterval);
     window.clearInterval(this.gameInterval);
+    window.clearInterval(this.targetGenerationInterval);
     window.clearInterval(this.enemyInterval);
     this.isGameRunning = false;
   }
@@ -157,7 +165,8 @@ export class Engine {
     this.intepretCode(code);
   }
   intepretCode(code) {
-    "use strict";
+    if (!code) return;
+    ("use strict");
 
     const engine = this;
     const canvas = this.canvas;
@@ -308,16 +317,13 @@ export class Engine {
       canvas.height,
       Math.max(0, (canvas.height * percentY) / 100 - size / 2)
     );
-    console.log(`SHOULD DEAW ${imageMap[player]}`, player);
     this.drawImage(imageMap[player], x, y, size, size);
   }
   setAvatar(newAvatar) {
-    console.log(`SET AVATAR ,`, newAvatar);
     this.scenario.player = newAvatar;
   }
 
   renderFrame(scenarioToRender) {
-    console.log(`Render frame`);
     const { ctx, canvas } = this;
     this.clearFrame();
     this.drawBackground();
@@ -326,8 +332,21 @@ export class Engine {
     this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
       this.drawRectangle(x, y, recWidth, recHeight, color, true);
     });
+    this.targets = this.targets.filter(
+      ({ x, y, recWidth, recHeight, color }) => {
+        const collided = this.drawRectangle(
+          x,
+          y,
+          recWidth,
+          recHeight,
+          color,
+          false,
+          true
+        );
+        return !collided;
+      }
+    );
     this.gameHud.forEach((fn, index) => {
-      console.log(`INVOKING HUD`, index);
       fn();
     });
   }
@@ -340,28 +359,42 @@ export class Engine {
     ctx.lineTo(canvas.width, canvas.height);
     ctx.stroke();
   }
-  drawRectangle(x, y, recWidth, recHeight, color, forceObstacle) {
+  drawRectangle(x, y, recWidth, recHeight, color, forceObstacle, forceTarget) {
     const { ctx, canvas } = this;
     const { height, width } = canvas;
     const isObstacle = forceObstacle || this.withinObstacleGuard;
+    const isTarget = forceTarget || this.withinObstacleGuard;
     ctx.fillStyle = color;
     if (this.withinObstacleGuard) {
       this.obstacles.push({ x, y, recWidth, recHeight, color });
+    }
+    if (this.withinTargetGuard) {
+      this.targets.push({ x, y, recWidth, recHeight, color });
     }
     const absoluteX = (x * width) / 100;
     const absoluteY = (y * height) / 100;
     const absoluteWidth = (recWidth * width) / 100;
     const absoluteHeight = (recHeight * height) / 100;
     ctx.fillRect(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
-
-    if (isObstacle) {
-      this.checkColision(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
+    const collided = this.checkColision(
+      absoluteX,
+      absoluteY,
+      absoluteWidth,
+      absoluteHeight
+    );
+    if (collided) {
+      if (isObstacle) {
+        this.intepretCode(this.scenario?.onColision());
+      } else if (isTarget) {
+        this.intepretCode(this.scenario?.onTargetGrabbed());
+      }
     }
+    return collided;
   }
 
   checkColision(obstacleX, obstacleY, obstacleWidth, obstacleHeight) {
     if (!this.isGameRunning) {
-      return;
+      return false;
     }
     const { canvas } = this;
     const size = (canvas.height * this.playerSize) / 100;
@@ -382,26 +415,21 @@ export class Engine {
       y < obstacleY + obstacleHeight &&
       size + y > obstacleY
     ) {
-      this.intepretCode(this.scenario.onColision());
-
-      console.log("Colisao!");
-    } else {
-      console.log("SEM COLISAO", {
-        x,
-        y,
-        size,
-        obstacleX,
-        obstacleY,
-        obstacleWidth,
-        obstacleHeight,
-      });
+      return true;
     }
+    return false;
   }
   setObstacles(obstacleRender) {
     if (!obstacleRender) return;
     this.withinObstacleGuard = true;
     obstacleRender();
     this.withinObstacleGuard = false;
+  }
+  setTarget(targetRenderer) {
+    if (!targetRenderer) return;
+    this.withinTargetGuard = true;
+    targetRenderer();
+    this.withinTargetGuard = false;
   }
   moveObstacleX(deltaX) {
     const { width } = this.canvas;
@@ -420,6 +448,7 @@ export class Engine {
     });
     this.obstacles = newObstacles;
   }
+
   moveObstacleY(deltaY) {
     const { height } = this.canvas;
 
@@ -435,6 +464,47 @@ export class Engine {
       }
     });
     this.obstacles = newObstacles;
+  }
+  moveTargetX(deltaX) {
+    const { width } = this.canvas;
+
+    const newTargets = [];
+    this.targets.forEach((originalTarget, index) => {
+      const { x, recWidth, ...other } = originalTarget;
+      const target = { x: x + deltaX, recWidth, ...other };
+      const absoluteX = (x * width) / 100;
+      const absoluteWidth = (recWidth * width) / 100;
+      console.log({ absoluteX, absoluteWidth, deltaX, x, recWidth });
+      if (absoluteX + absoluteWidth > 0) {
+        newTargets.push(target);
+      } else {
+        console.log(`removing target, ${absoluteX + absoluteWidth}`, {
+          absoluteX,
+          absoluteWidth,
+          deltaX,
+          x,
+          recWidth,
+          originalTarget,
+        });
+      }
+    });
+    this.targets = newTargets;
+  }
+  moveTargetY(deltaY) {
+    const { height } = this.canvas;
+    console.log(`Move target y ${deltaY}`);
+    const newTargets = [];
+    this.targets.forEach(({ y, recHeight, ...other }, index) => {
+      const target = { y: y + deltaY, recHeight, ...other };
+      const absoluteY = (y * height) / 100;
+      const absoluteHeight = (recHeight * height) / 100;
+      if (absoluteY + absoluteHeight > 0) {
+        newTargets.push(target);
+      } else {
+        console.log(`removing target`);
+      }
+    });
+    this.targets = newTargets;
   }
   endGame() {
     this.clearGameLoop();

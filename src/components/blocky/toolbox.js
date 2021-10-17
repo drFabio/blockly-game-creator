@@ -646,6 +646,12 @@ export const toolbox = {
       
             </shadow>
           </value>
+          <value name="targetGenerationSpeed">
+            <shadow type="math_number">
+              <field name="NUM">2000</field>
+      
+            </shadow>
+          </value>
         </block>`,
         },
         { kind: "block", type: "game_duck" },
@@ -660,8 +666,11 @@ export const toolbox = {
         { kind: "block", type: "game_set_player_position_y" },
         { kind: "block", type: "game_set_player_icon" },
         { kind: "block", type: "game_obstacle" },
+        { kind: "block", type: "game_target" },
         { kind: "block", type: "game_move_obstacle_x" },
         { kind: "block", type: "game_move_obstacle_y" },
+        { kind: "block", type: "game_move_target_x" },
+        { kind: "block", type: "game_move_target_y" },
         { kind: "block", type: "game_end_game" },
       ],
     },

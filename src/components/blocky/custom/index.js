@@ -15,11 +15,14 @@ import { canvasSetTextAlign } from "./canvasSetTextAlign";
 import { playerX } from "./playerX";
 import { playerY } from "./playerY";
 import { gameObstacle } from "./gameObstacle";
+import { gameTarget } from "./gameTarget";
 import { gameSetPlayerPosition } from "./gameSetPlayerPosition";
 import { gameSetPlayerPositionX } from "./gameSetPlayerPositionX";
 import { gameSetPlayerPositionY } from "./gameSetPlayerPositionY";
 import { gameMoveObstacleX } from "./gameMoveObstacleX";
 import { gameMoveObstacleY } from "./gameMoveObstacleY";
+import { gameMoveTargetX } from "./gameMoveTargetX";
+import { gameMoveTargetY } from "./gameMoveTargetY";
 import { gameEndGame } from "./gameEndGame";
 import { setPlayerIcon } from "./setPlayerIcon";
 
@@ -43,8 +46,11 @@ export function initializeCustomBlocks(Blockly) {
   gameSetPlayerPositionX(Blockly);
   gameSetPlayerPositionY(Blockly);
   gameObstacle(Blockly);
+  gameTarget(Blockly);
   gameMoveObstacleX(Blockly);
   gameMoveObstacleY(Blockly);
+  gameMoveTargetX(Blockly);
+  gameMoveTargetY(Blockly);
   gameEndGame(Blockly);
   playerDeadDuck(Blockly);
   playerDeadChicken(Blockly);

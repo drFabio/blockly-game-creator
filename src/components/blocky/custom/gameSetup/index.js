@@ -16,6 +16,11 @@ export const gameSetup = (Blockly) => {
       "enemyGenerationSpeed",
       Blockly.JavaScript.ORDER_ATOMIC
     );
+    const targetGenerationSpeed = Blockly.JavaScript.valueToCode(
+      block,
+      "targetGenerationSpeed",
+      Blockly.JavaScript.ORDER_ATOMIC
+    );
 
     const player = Blockly.JavaScript.statementToCode(block, "player");
     var onStart = Blockly.JavaScript.statementToCode(block, "onStart");
@@ -37,12 +42,21 @@ export const gameSetup = (Blockly) => {
       block,
       "onObstacleOutside"
     );
+    const onTargetGrabbed = Blockly.JavaScript.statementToCode(
+      block,
+      "onTargetGrabbed"
+    );
+    const onTargetGenerated = Blockly.JavaScript.statementToCode(
+      block,
+      "onTargetGenerated"
+    );
 
     // TODO: Assemble JavaScript into code variable.
     const code = `engine.setScenario(
       {
-        initialSpeed: ${initialSpeed},
-        enemyGenerationSpeed: ${enemyGenerationSpeed},
+        initialSpeed: ${initialSpeed || 500},
+        enemyGenerationSpeed: ${enemyGenerationSpeed || 500},
+        targetGenerationSpeed: ${targetGenerationSpeed || 500},
         player: ${player || "null"},
         onStart: () => {
           ${onStart}
@@ -73,6 +87,12 @@ export const gameSetup = (Blockly) => {
         },
         onObstacleOutside: () => {
           ${onObstacleOutside}
+        },
+        onTargetGrabbed: () => {
+          ${onTargetGrabbed}
+        },
+        onTargetGenerated: () => {
+          ${onTargetGenerated}
         }
       });\n`;
     return code;

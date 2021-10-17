@@ -1,19 +1,19 @@
 import { definition } from "./definition";
 
-export const gameMoveObstacleY = (Blockly) => {
-  Blockly.Blocks["game_move_obstacle_y"] = {
+export const gameMoveTargetX = (Blockly) => {
+  Blockly.Blocks["game_move_target_x"] = {
     init: function () {
       this.jsonInit(definition);
     },
   };
-  Blockly.JavaScript["game_move_obstacle_y"] = function (block) {
+  Blockly.JavaScript["game_move_target_x"] = function (block) {
     // TODO: Assemble JavaScript into code variable.
-    const y = Blockly.JavaScript.valueToCode(
+    const x = Blockly.JavaScript.valueToCode(
       block,
-      "y",
+      "x",
       Blockly.JavaScript.ORDER_ATOMIC
     );
     // TODO: Change ORDER_NONE to the correct strength.
-    return `engine.moveObstacleY(${y});`;
+    return `engine.moveTargetX(${x});`;
   };
 };
