@@ -1,13 +1,13 @@
 export const toolbox = {
-  kind: 'categoryToolbox',
+  kind: "categoryToolbox",
   contents: [
     {
-      kind: 'category',
-      name: 'Loops',
-      colour: '#5ba55b',
+      kind: "category",
+      name: "Loops",
+      colour: "#5ba55b",
       contents: [
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="controls_repeat_ext">
      <value name="TIMES">
        <shadow type="math_number">
@@ -17,13 +17,13 @@ export const toolbox = {
    </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="controls_whileUntil">
         <field name="MODE">WHILE</field>
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="controls_for">
         <field name="VAR" id="a:~Oo3dd$G}ExN2-PZCh">i</field>
         <value name="FROM">
@@ -44,13 +44,13 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="controls_forEach">
         <field name="VAR" id="YdZp%x}jHaEo(d*?3_A;">j</field>
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `   
         <block type="controls_flow_statements">
           <field name="FLOW">BREAK</field>
@@ -59,54 +59,54 @@ export const toolbox = {
       ],
     },
     {
-      kind: 'category',
-      name: 'logic',
-      colour: '210',
+      kind: "category",
+      name: "logic",
+      colour: "210",
       contents: [
         {
-          kind: 'block',
-          type: 'controls_if',
+          kind: "block",
+          type: "controls_if",
         },
         {
-          kind: 'block',
-          type: 'controls_whileUntil',
+          kind: "block",
+          type: "controls_whileUntil",
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="logic_compare">
             <field name="OP">EQ</field>
           </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="logic_operation">
           <field name="OP">AND</field>
         </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="logic_boolean">
         <field name="BOOL">TRUE</field>
       </block>`,
         },
-        { kind: 'block', type: 'logic_negate' },
-        { kind: 'block', type: 'logic_null' },
-        { kind: 'block', type: 'logic_ternary' },
+        { kind: "block", type: "logic_negate" },
+        { kind: "block", type: "logic_null" },
+        { kind: "block", type: "logic_ternary" },
       ],
     },
     {
-      kind: 'category',
-      name: 'Math',
-      colour: '#5b67a5',
+      kind: "category",
+      name: "Math",
+      colour: "#5b67a5",
       contents: [
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="math_number">
         <field name="NUM">0</field>
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="math_arithmetic">
         <field name="OP">ADD</field>
         <value name="A">
@@ -122,7 +122,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="math_single">
         <field name="OP">ROOT</field>
         <value name="NUM">
@@ -133,7 +133,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="math_trig">
         <field name="OP">SIN</field>
         <value name="NUM">
@@ -144,13 +144,13 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="math_constant">
         <field name="CONSTANT">PI</field>
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="math_number_property">
         <mutation divisor_input="false"></mutation>
         <field name="PROPERTY">EVEN</field>
@@ -162,7 +162,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="math_round">
         <field name="OP">ROUND</field>
         <value name="NUM">
@@ -173,14 +173,14 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="math_on_list">
           <mutation op="SUM"></mutation>
           <field name="OP">SUM</field>
         </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="math_modulo">
         <value name="DIVIDEND">
           <shadow type="math_number">
@@ -195,7 +195,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="math_constrain">
         <value name="VALUE">
           <shadow type="math_number">
@@ -215,7 +215,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `  <block type="math_random_int">
         <value name="FROM">
           <shadow type="math_number">
@@ -229,29 +229,29 @@ export const toolbox = {
         </value>
       </block>`,
         },
-        { kind: 'block', type: 'math_random_float' },
+        { kind: "block", type: "math_random_float" },
       ],
     },
     {
-      kind: 'category',
-      name: 'text',
-      colour: '#5ba58c',
+      kind: "category",
+      name: "text",
+      colour: "#5ba58c",
       contents: [
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="text">
           <field name="TEXT"></field>
         </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `
         <block type="text_join">
           <mutation items="2"></mutation>
         </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="text_append">
         <field name="VAR" id="-O]*Wz)]VbSmB]W@kR=~">item</field>
         <value name="TEXT">
@@ -262,7 +262,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `
         <block type="text_length">
           <value name="VALUE">
@@ -273,7 +273,7 @@ export const toolbox = {
         </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `
         <block type="text_isEmpty">
           <value name="VALUE">
@@ -284,7 +284,7 @@ export const toolbox = {
         </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="text_indexOf">
         <field name="END">FIRST</field>
         <value name="VALUE">
@@ -300,7 +300,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="text_charAt">
         <mutation at="true"></mutation>
         <field name="WHERE">FROM_START</field>
@@ -312,7 +312,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="text_getSubstring">
         <mutation at1="true" at2="true"></mutation>
         <field name="WHERE1">FROM_START</field>
@@ -325,7 +325,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="text_changeCase">
         <field name="CASE">UPPERCASE</field>
         <value name="TEXT">
@@ -336,7 +336,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `  <block type="text_trim">
         <field name="MODE">BOTH</field>
         <value name="TEXT">
@@ -347,7 +347,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="text_print">
         <value name="TEXT">
           <shadow type="text">
@@ -371,24 +371,24 @@ export const toolbox = {
       ],
     },
     {
-      kind: 'category',
-      name: 'Lists',
-      colour: '#745ba5',
+      kind: "category",
+      name: "Lists",
+      colour: "#745ba5",
       contents: [
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="lists_create_with">
           <mutation items="0"></mutation>
         </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="lists_create_with">
         <mutation items="3"></mutation>
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `  <block type="lists_repeat">
         <value name="NUM">
           <shadow type="math_number">
@@ -397,9 +397,9 @@ export const toolbox = {
         </value>
       </block>`,
         },
-        { kind: 'block', type: 'lists_length' },
+        { kind: "block", type: "lists_length" },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="lists_indexOf">
         <field name="END">FIRST</field>
         <value name="VALUE">
@@ -410,7 +410,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="lists_getIndex">
         <mutation statement="false" at="true"></mutation>
         <field name="MODE">GET</field>
@@ -423,7 +423,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="lists_setIndex">
         <mutation at="true"></mutation>
         <field name="MODE">SET</field>
@@ -436,7 +436,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="lists_getSublist">
         <mutation at1="true" at2="true"></mutation>
         <field name="WHERE1">FROM_START</field>
@@ -449,7 +449,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="lists_split">
         <mutation mode="SPLIT"></mutation>
         <field name="MODE">SPLIT</field>
@@ -461,7 +461,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `   <block type="lists_sort">
         <field name="TYPE">NUMERIC</field>
         <field name="DIRECTION">1</field>
@@ -470,19 +470,19 @@ export const toolbox = {
       ],
     },
     {
-      kind: 'category',
-      name: 'Colour',
-      colour: '#a5745b',
+      kind: "category",
+      name: "Colour",
+      colour: "#a5745b",
       contents: [
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `    <block type="colour_picker">
      <field name="COLOUR">#ff0000</field>
    </block>`,
         },
-        { kind: 'block', type: 'colour_random' },
+        { kind: "block", type: "colour_random" },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="colour_rgb">
         <value name="RED">
           <shadow type="math_number">
@@ -502,7 +502,7 @@ export const toolbox = {
       </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="colour_blend">
         <value name="COLOUR1">
           <shadow type="colour_picker">
@@ -523,27 +523,27 @@ export const toolbox = {
         },
       ],
     },
-    { kind: 'sep' },
+    { kind: "sep" },
     {
-      kind: 'category',
-      name: 'Variables',
-      colour: '#a55b80',
-      custom: 'VARIABLE',
+      kind: "category",
+      name: "Variables",
+      colour: "#a55b80",
+      custom: "VARIABLE",
     },
     {
-      kind: 'category',
-      name: 'Procedures',
-      colour: '#995ba5',
-      custom: 'PROCEDURE',
+      kind: "category",
+      name: "Procedures",
+      colour: "#995ba5",
+      custom: "PROCEDURE",
     },
-    { kind: 'sep' },
+    { kind: "sep" },
     {
-      kind: 'category',
-      name: 'canvas',
-      colour: '#6600cc',
+      kind: "category",
+      name: "canvas",
+      colour: "#6600cc",
       contents: [
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="canvas_background_color">
     <value name="backgroundColor">
       <shadow type="colour_picker">
@@ -553,7 +553,7 @@ export const toolbox = {
   </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="canvas_set_text_color">
     <value name="textColor">
       <shadow type="colour_picker">
@@ -562,9 +562,9 @@ export const toolbox = {
     </value>
   </block>`,
         },
-        { kind: 'block', type: 'canvas_set_text_align' },
+        { kind: "block", type: "canvas_set_text_align" },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="canvas_text_size">
     <value name="textSize">
       <shadow type="math_number">
@@ -575,7 +575,7 @@ export const toolbox = {
   </block>`,
         },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: ` <block type="canvas_draw_rectangle">
           <value name="color">
           <shadow type="colour_picker">
@@ -605,10 +605,10 @@ export const toolbox = {
       </value>
   </block>`,
         },
-        { kind: 'block', type: 'canvas_width' },
-        { kind: 'block', type: 'canvas_height' },
+        { kind: "block", type: "canvas_width" },
+        { kind: "block", type: "canvas_height" },
         {
-          kind: 'block',
+          kind: "block",
           blockxml: `<block type="canvas_set_cursor">
           <value name="x">
             <shadow type="math_number">
@@ -627,23 +627,41 @@ export const toolbox = {
       ],
     },
     {
-      kind: 'category',
-      name: 'game',
-      colour: '#FFAABB',
+      kind: "category",
+      name: "game",
+      colour: "#FFAABB",
       contents: [
         {
-          kind: 'block',
-          type: 'game_setup',
+          kind: "block",
+
+          blockxml: `<block type="game_setup">
+          <value name="initialSpeedDefault">
+            <shadow type="math_number">
+              <field name="NUM">500</field>
+            </shadow>
+          </value>
+          <value name="enemyGenerationSpeed">
+            <shadow type="math_number">
+              <field name="NUM">900</field>
+      
+            </shadow>
+          </value>
+        </block>`,
         },
-        { kind: 'block', type: 'game_duck' },
-        { kind: 'block', type: 'game_chicken' },
-        { kind: 'block', type: 'player_x' },
-        { kind: 'block', type: 'player_y' },
-        { kind: 'block', type: 'game_set_player_position' },
-        { kind: 'block', type: 'game_obstacle' },
-        { kind: 'block', type: 'game_move_obstacle_x' },
-        { kind: 'block', type: 'game_move_obstacle_y' },
-        { kind: 'block', type: 'game_end_game' },
+        { kind: "block", type: "game_duck" },
+        { kind: "block", type: "game_dead_duck" },
+        { kind: "block", type: "game_chicken" },
+        { kind: "block", type: "game_dead_chicken" },
+
+        { kind: "block", type: "player_x" },
+        { kind: "block", type: "player_y" },
+        { kind: "block", type: "game_set_player_position" },
+        { kind: "block", type: "game_set_player_position_x" },
+        { kind: "block", type: "game_set_player_position_y" },
+        { kind: "block", type: "game_obstacle" },
+        { kind: "block", type: "game_move_obstacle_x" },
+        { kind: "block", type: "game_move_obstacle_y" },
+        { kind: "block", type: "game_end_game" },
       ],
     },
   ],

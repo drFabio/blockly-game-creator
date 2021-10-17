@@ -1,20 +1,26 @@
-import duckImage from '/images/duck.png';
-import chickenImage from '/images/chicken.png';
+import duckImage from "/images/duck.png";
+import chickenImage from "/images/chicken.png";
+import deadDuckImage from "/images/deadDuck.png";
+import deadChickenImage from "/images/deadChicken.png";
 
-const PLAYER_DUCK = Symbol('PLAYER_DUCK');
-const PLAYER_CHICKEN = Symbol('PLAYER_CHICKEN');
+const PLAYER_DUCK = Symbol("PLAYER_DUCK");
+const PLAYER_CHICKEN = Symbol("PLAYER_CHICKEN");
+const PLAYER_DEAD_DUCK = Symbol("PLAYER_DEAD_DUCK");
+const PLAYER_DEAD_CHICKEN = Symbol("PLAYER_DEAD_CHICKEN");
 
 const imageMap = {
   [PLAYER_DUCK]: duckImage,
   [PLAYER_CHICKEN]: chickenImage,
+  [PLAYER_DEAD_DUCK]: deadDuckImage,
+  [PLAYER_DEAD_CHICKEN]: deadChickenImage,
 };
 export class Engine {
   canvas;
   ctx;
   textSizeInPercentage = 5;
   textCursor = [0, 0];
-  textColor = 'black';
-  textAlign = 'left';
+  textColor = "black";
+  textAlign = "left";
   customCursor = false;
   scenario = {};
   currentCode;
@@ -25,48 +31,53 @@ export class Engine {
   obstacles = [];
   gameInterval;
   enemyInterval;
+  onGameStart = () => {};
+  onGameEnd = () => {};
   handleStart() {
     console.log(`Will start interactions`);
     this.proccessBlocks(this.currentCode);
   }
   startGame() {
-    if (this.scenario && !this.isGameRunning) {
-      this.isGameRunning = true;
-      this.obstacles = [];
-      try {
-        console.log(`Calling onStart`, this.scenario.onStart);
-        this.intepretCode(this.scenario.onStart());
+    if (!this.scenario || this.isGameRunning) {
+      return;
+    }
+    this.onGameStart();
+    console.log(`Starting game`);
+    this.isGameRunning = true;
+    this.obstacles = [];
+    try {
+      console.log(`Calling onStart`, this.scenario.onStart);
+      this.intepretCode(this.scenario.onStart());
+      this.renderFrame();
+      this.gameInterval = setInterval(() => {
+        this.intepretCode(this.scenario.onUpdate());
         this.renderFrame();
-        this.gameInterval = setInterval(() => {
-          this.intepretCode(this.scenario.onUpdate());
-          this.renderFrame();
-        }, this.scenario.initialSpeed || 500);
-        this.enemyInterval = setInterval(() => {
-          this.intepretCode(this.scenario.onEnemyGeneration());
-          this.renderFrame();
-        }, this.scenario.enemyGenerationSpeed || 500);
-      } catch (error) {
-        console.error(error);
-      }
+      }, this.scenario.initialSpeed || 500);
+      this.enemyInterval = setInterval(() => {
+        this.intepretCode(this.scenario.onEnemyGeneration());
+        this.renderFrame();
+      }, this.scenario.enemyGenerationSpeed || 500);
+    } catch (error) {
+      console.error(error);
     }
   }
   listenToKeys(ev) {
-    if (ev.code === 'Enter') {
+    if (ev.code === "Enter") {
       this.startGame();
     }
     const { scenario } = this;
     if (!this.isGameRunning) return;
     try {
-      if (ev.code === 'ArrowUp') {
+      if (ev.code === "ArrowUp") {
         this.intepretCode(scenario.onUpKey());
       }
-      if (ev.code === 'ArrowDown') {
+      if (ev.code === "ArrowDown") {
         this.intepretCode(scenario.onDownKey());
       }
-      if (ev.code === 'ArrowRight') {
+      if (ev.code === "ArrowRight") {
         this.intepretCode(scenario.onForwardKey());
       }
-      if (ev.code === 'ArrowLeft') {
+      if (ev.code === "ArrowLeft") {
         this.intepretCode(scenario.onBackwardKey());
       }
     } catch (error) {
@@ -81,19 +92,22 @@ export class Engine {
     if (newSize === this.size) return;
     this.size = newSize;
     console.log(`Resizing canvas to ${newSize}`);
-    this.canvas.setAttribute('width', `${newSize}px`);
-    this.canvas.setAttribute('height', `${newSize}px`);
+    this.canvas.setAttribute("width", `${newSize}px`);
+    this.canvas.setAttribute("height", `${newSize}px`);
     this.proccessBlocks(this.currentCode);
   }
-  constructor(canvas) {
+  constructor(canvas, onGameStart, onGameEnd) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.ctx.font = '20px arial';
-    document.addEventListener('keydown', this.listenToKeys.bind(this));
+    this.onGameStart = onGameStart;
+    this.onGameEnd = onGameEnd;
+    this.ctx = canvas.getContext("2d");
+    this.ctx.font = "20px arial";
+    document.addEventListener("keydown", this.listenToKeys.bind(this));
   }
   tearDown() {
+    console.log(`Tearing game down`);
     this.clearGameLoop();
-    document.removeEventListener('keydown', this.listenToKeys.bind(this));
+    document.removeEventListener("keydown", this.listenToKeys.bind(this));
   }
   clearGameLoop() {
     window.clearInterval(this.gameInterval);
@@ -103,7 +117,17 @@ export class Engine {
     const drawing = new Image();
     drawing.src = src; // can also be a remote URL e.g. http://
     drawing.onload = () => {
-      this.ctx.drawImage(drawing, 0, 0, drawing.width, drawing.height, x, y, width, height);
+      this.ctx.drawImage(
+        drawing,
+        0,
+        0,
+        drawing.width,
+        drawing.height,
+        x,
+        y,
+        width,
+        height
+      );
     };
   }
 
@@ -114,15 +138,15 @@ export class Engine {
     console.log(`Interpreting code \n${code}`);
     this.textSizeInPercentage = 5;
     this.textCursor = [0, 0];
-    this.textColor = 'black';
-    this.textAlign = 'left';
+    this.textColor = "black";
+    this.textAlign = "left";
     this.customCursor = false;
     this.playerPosition = [10, 10];
     this.playerSize = 10;
     this.intepretCode(code);
   }
   intepretCode(code) {
-    'use strict';
+    "use strict";
 
     const engine = this;
     const canvas = this.canvas;
@@ -160,13 +184,13 @@ export class Engine {
     let xPos = x;
     if (!this.customCursor) {
       switch (this.textAlign) {
-        case 'left':
+        case "left":
           xPos = 0;
           break;
-        case 'center':
+        case "center":
           xPos = canvas.width / 2;
           break;
-        case 'right':
+        case "right":
           xPos = canvas.width;
           break;
       }
@@ -222,6 +246,12 @@ export class Engine {
     return this.playerPosition[1];
   }
   setPlayerPosition(x, y) {
+    if (typeof x === "undefined") {
+      x = this.getPlayerX();
+    }
+    if (typeof y === "undefined") {
+      y = this.getPlayerY();
+    }
     this.playerPosition = [x, y];
     console.log(`Setting player to ${(x, y)}`);
     this.renderFrame();
@@ -234,8 +264,14 @@ export class Engine {
     const size = (canvas.height * this.playerSize) / 100;
     const [percentX, percentY] = this.playerPosition;
     // position is always in porcentages
-    const x = Math.min(canvas.width, Math.max(0, (canvas.width * percentX) / 100 - size / 2));
-    const y = Math.min(canvas.height, Math.max(0, (canvas.height * percentY) / 100 - size / 2));
+    const x = Math.min(
+      canvas.width,
+      Math.max(0, (canvas.width * percentX) / 100 - size / 2)
+    );
+    const y = Math.min(
+      canvas.height,
+      Math.max(0, (canvas.height * percentY) / 100 - size / 2)
+    );
     this.drawImage(imageMap[player], x, y, size, size);
   }
 
@@ -272,8 +308,14 @@ export class Engine {
     const size = (canvas.height * this.playerSize) / 100;
     const [percentX, percentY] = this.playerPosition;
     // position is always in porcentages
-    const x = Math.min(canvas.width, Math.max(0, (canvas.width * percentX) / 100 - size / 2));
-    const y = Math.min(canvas.height, Math.max(0, (canvas.height * percentY) / 100 - size / 2));
+    const x = Math.min(
+      canvas.width,
+      Math.max(0, (canvas.width * percentX) / 100 - size / 2)
+    );
+    const y = Math.min(
+      canvas.height,
+      Math.max(0, (canvas.height * percentY) / 100 - size / 2)
+    );
 
     if (
       x < obstacleX + obstacleWidth &&
@@ -283,9 +325,17 @@ export class Engine {
     ) {
       this.intepretCode(this.scenario.onColision());
 
-      console.log('Colisao!');
+      console.log("Colisao!");
     } else {
-      console.log('SEM COLISAO', { x, y, size, obstacleX, obstacleY, obstacleWidth, obstacleHeight });
+      console.log("SEM COLISAO", {
+        x,
+        y,
+        size,
+        obstacleX,
+        obstacleY,
+        obstacleWidth,
+        obstacleHeight,
+      });
     }
   }
   setObstacles(obstacleRender) {
@@ -330,5 +380,6 @@ export class Engine {
     this.clearGameLoop();
 
     this.intepretCode(this.scenario.onEnd());
+    this.onGameEnd();
   }
 }

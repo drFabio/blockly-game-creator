@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { PAGE_CODE } from '../../constants';
 import { WorkspaceContext } from '../../WorkspaceContext';
 import { Engine } from './Engine';
@@ -7,6 +7,7 @@ export const GameArea = ({ currentPage }) => {
   const containerRef = useRef();
   const canvasRef = useRef();
   const engineRef = useRef();
+  const [info,setInfo] = useState('Game stopped')
   const { getJsCode } = useContext(WorkspaceContext);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export const GameArea = ({ currentPage }) => {
   }
   useEffect(() => {
     if (engineRef.current) return;
-    engineRef.current = new Engine(canvasRef.current);
+    engineRef.current = new Engine(canvasRef.current, () => setInfo(`Game Running`), () => setInfo(`Game stopped!`));
     resizeCanvas();
     engineRef.current.proccessBlocks(getJsCode);
 
@@ -44,9 +45,9 @@ export const GameArea = ({ currentPage }) => {
   }, [currentPage]);
   return (
     <div className="game-area" ref={containerRef}>
+      <p>{info}</p>
       <canvas
         ref={canvasRef}
-        onClick={() => engineRef.current?.handleStart()}
         onBlur={() => console.log(`blur`)}
       ></canvas>
     </div>

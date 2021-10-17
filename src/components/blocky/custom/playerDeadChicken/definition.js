@@ -1,15 +1,15 @@
-import duckImage from "/images/duck.svg";
+import src from "/images/deadChicken.svg";
 
 export const definition = {
-  type: "game_duck",
-  message0: "Duck %1",
+  type: "game_dead_chicken",
+  message0: "Dead Chicken %1",
   args0: [
     {
       type: "field_image",
-      src: duckImage,
+      src,
       width: 40,
       height: 40,
-      alt: "duck",
+      alt: "dead chicken",
       flipRtl: false,
     },
   ],

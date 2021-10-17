@@ -1,23 +1,28 @@
-import { gameSetup } from './gameSetup';
-import { playerDuck } from './playerDuck';
-import { playerChicken } from './playerChicken';
-import { overWrite } from './overWrite';
-import { backgroundColor } from './backgroundColor';
-import { textSize } from './textSize';
-import { canvasWidth } from './canvasWidth';
-import { canvasHeight } from './canvasHeight';
-import { canvasSetTextColor } from './canvasSetTextColor';
-import { canvasSetCursor } from './canvasSetCursor';
-import { canvasDrawRectangle } from './canvasDrawRectangle';
-import { canvasSetTextAlign } from './canvasSetTextAlign';
-import { playerX } from './playerX';
-import { playerY } from './playerY';
-import { gameObstacle } from './gameObstacle';
-import { gameSetPlayerPosition } from './gameSetPlayerPosition';
-import { gameMoveObstacleX } from './gameMoveObstacleX';
-import { gameMoveObstacleY } from './gameMoveObstacleY';
-import { gameEndGame } from './gameEndGame';
+import { gameSetup } from "./gameSetup";
+import { playerDuck } from "./playerDuck";
+import { playerDeadDuck } from "./playerDeadDuck";
+import { playerDeadChicken } from "./playerDeadChicken";
+import { playerChicken } from "./playerChicken";
+import { overWrite } from "./overWrite";
+import { backgroundColor } from "./backgroundColor";
+import { textSize } from "./textSize";
+import { canvasWidth } from "./canvasWidth";
+import { canvasHeight } from "./canvasHeight";
+import { canvasSetTextColor } from "./canvasSetTextColor";
+import { canvasSetCursor } from "./canvasSetCursor";
+import { canvasDrawRectangle } from "./canvasDrawRectangle";
+import { canvasSetTextAlign } from "./canvasSetTextAlign";
+import { playerX } from "./playerX";
+import { playerY } from "./playerY";
+import { gameObstacle } from "./gameObstacle";
+import { gameSetPlayerPosition } from "./gameSetPlayerPosition";
+import { gameSetPlayerPositionX } from "./gameSetPlayerPositionX";
+import { gameSetPlayerPositionY } from "./gameSetPlayerPositionY";
+import { gameMoveObstacleX } from "./gameMoveObstacleX";
+import { gameMoveObstacleY } from "./gameMoveObstacleY";
+import { gameEndGame } from "./gameEndGame";
 
+// TODO avoid this
 export function initializeCustomBlocks(Blockly) {
   gameSetup(Blockly);
   playerDuck(Blockly);
@@ -34,8 +39,12 @@ export function initializeCustomBlocks(Blockly) {
   playerY(Blockly);
   playerX(Blockly);
   gameSetPlayerPosition(Blockly);
+  gameSetPlayerPositionX(Blockly);
+  gameSetPlayerPositionY(Blockly);
   gameObstacle(Blockly);
   gameMoveObstacleX(Blockly);
   gameMoveObstacleY(Blockly);
   gameEndGame(Blockly);
+  playerDeadDuck(Blockly);
+  playerDeadChicken(Blockly);
 }
