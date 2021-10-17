@@ -288,12 +288,21 @@ export class Engine {
   renderFrame(scenarioToRender) {
     console.log(`Render frame`);
     const { ctx, canvas } = this;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.clearFrame();
     this.drawBackground();
     this.renderPlayer(scenarioToRender);
     this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
       this.drawRectangle(x, y, recWidth, recHeight, color, true);
     });
+  }
+  clearFrame() {
+    const { ctx, canvas } = this;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(canvas.width, canvas.height);
+    ctx.stroke();
   }
   drawRectangle(x, y, recWidth, recHeight, color, forceObstacle) {
     const { ctx, canvas } = this;
@@ -392,9 +401,11 @@ export class Engine {
   }
   endGame() {
     this.clearGameLoop();
-    this.intepretCode(this.scenario.onEnd());
+    window.setTimeout(() => {
+      this.intepretCode(this.scenario.onEnd());
+      this.renderFrame();
+    }, 100);
 
     this.onGameEnd();
-    this.renderFrame();
   }
 }
