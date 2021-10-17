@@ -30,6 +30,7 @@ export class Engine {
   playerSize = 10;
   withinObstacleGuard = false;
   obstacles = [];
+  gameHud = [];
   gameInterval;
   enemyInterval;
   onGameStart = () => {};
@@ -48,6 +49,7 @@ export class Engine {
     console.log(`Starting game`);
     this.isGameRunning = true;
     this.obstacles = [];
+    this.gameHud = [];
     try {
       console.log(`Calling onStart`, this.scenario.onStart);
       this.intepretCode(this.scenario.onStart());
@@ -177,7 +179,13 @@ export class Engine {
     ctx.fillRect(0, 0, size, size);
   }
 
-  writeText(text) {
+  writeText(text, isHud) {
+    // So hackish
+    if (this.isGameRunning && !isHud) {
+      this.gameHud.push(() => this.writeText(text, true));
+      return;
+    }
+    console.log(`IS HUD!`, { isHud, text });
     const { ctx, canvas } = this;
     const textSize = (canvas.height * this.textSizeInPercentage) / 100;
     ctx.font = `${textSize}px Arial`;
@@ -204,18 +212,37 @@ export class Engine {
 
     this.customCursor = false;
   }
-  setTextSize(size) {
+  setTextSize(size, isHud) {
+    // So hackish
+    if (this.isGameRunning && !isHud) {
+      this.gameHud.push(() => this.setTextSize(size, true));
+      return;
+    }
     this.textSizeInPercentage = size;
   }
-  setTextAlign(align) {
+  setTextAlign(align, isHud) {
+    // SO HACKISH
+    if (this.isGameRunning && !isHud) {
+      this.gameHud.push(() => this.setTextAlign(align, true));
+      return;
+    }
     this.textAlign = align;
   }
-  setCursor(x = 0, y = 0) {
+  setCursor(x = 0, y = 0, isHud) {
+    // SO HACKISH
+    if (this.isGameRunning && !isHud) {
+      this.gameHud.push(() => this.setCursor(x, y, true));
+      return;
+    }
     this.textCursor = [x, y];
-    this.customCursor = true;
   }
 
-  setTextColor(color) {
+  setTextColor(color, isHud) {
+    // SO HACKISH
+    if (this.isGameRunning && !isHud) {
+      this.gameHud.push(() => this.setTextColor(color, true));
+      return;
+    }
     this.textColor = color;
   }
 
@@ -290,10 +317,17 @@ export class Engine {
     const { ctx, canvas } = this;
     this.clearFrame();
     this.drawBackground();
+    this.gameHud.forEach((fn, index) => {
+      console.log(`INVOKING HUD`, index);
+      fn();
+    });
     this.renderPlayer(scenarioToRender);
     this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
       this.drawRectangle(x, y, recWidth, recHeight, color, true);
     });
+    console.log(`HUD IS ${this.gameHud}`);
+
+    this.gameHud = [];
   }
   clearFrame() {
     const { ctx, canvas } = this;
