@@ -55,12 +55,16 @@ export class Engine {
       this.intepretCode(this.scenario.onStart());
       this.renderFrame();
       this.gameInterval = setInterval(() => {
+        this.gameHud = [];
         this.intepretCode(this.scenario.onUpdate());
-        this.renderFrame();
+        // this.renderFrame();
       }, this.scenario.initialSpeed || 500);
+      this.renderInterval = setInterval(() => {
+        this.renderFrame();
+      }, this.scenario.initialSpeed || 100);
       this.enemyInterval = setInterval(() => {
         this.intepretCode(this.scenario.onEnemyGeneration());
-        this.renderFrame();
+        //this.renderFrame();
       }, this.scenario.enemyGenerationSpeed || 500);
     } catch (error) {
       console.error(error);
@@ -115,6 +119,7 @@ export class Engine {
     document.removeEventListener("keydown", this.listenToKeys.bind(this));
   }
   clearGameLoop() {
+    window.clearInterval(this.renderInterval);
     window.clearInterval(this.gameInterval);
     window.clearInterval(this.enemyInterval);
     this.isGameRunning = false;
@@ -185,7 +190,6 @@ export class Engine {
       this.gameHud.push(() => this.writeText(text, true));
       return;
     }
-    console.log(`IS HUD!`, { isHud, text });
     const { ctx, canvas } = this;
     const textSize = (canvas.height * this.textSizeInPercentage) / 100;
     ctx.font = `${textSize}px Arial`;
@@ -317,17 +321,15 @@ export class Engine {
     const { ctx, canvas } = this;
     this.clearFrame();
     this.drawBackground();
-    this.gameHud.forEach((fn, index) => {
-      console.log(`INVOKING HUD`, index);
-      fn();
-    });
+
     this.renderPlayer(scenarioToRender);
     this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
       this.drawRectangle(x, y, recWidth, recHeight, color, true);
     });
-    console.log(`HUD IS ${this.gameHud}`);
-
-    this.gameHud = [];
+    this.gameHud.forEach((fn, index) => {
+      console.log(`INVOKING HUD`, index);
+      fn();
+    });
   }
   clearFrame() {
     const { ctx, canvas } = this;

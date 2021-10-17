@@ -34,7 +34,6 @@ export const gameSetup = (Blockly) => {
       "onEnemyGeneration"
     );
 
-    console.log({ onColision });
     // TODO: Assemble JavaScript into code variable.
     const code = `engine.setScenario(
       {
