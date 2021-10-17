@@ -7,7 +7,7 @@ export const BlocklyEditor = ({ currentPage, children: toolBox, ...props }) => {
   const editorRef = useRef();
   const containerRef = useRef();
   let workspaceRef = useRef();
-  const { setGetJsCode } = useContext(WorkspaceContext);
+  const { setGetJsCode, setWorkspaceXml } = useContext(WorkspaceContext);
   function resizeBlockly() {
     if (!workspaceRef.current || !containerRef.current) {
       return;
@@ -25,7 +25,7 @@ export const BlocklyEditor = ({ currentPage, children: toolBox, ...props }) => {
   }
   useEffect(() => {
     if (workspaceRef.current) return;
-    workspaceRef.current = initialize(editorRef.current, setGetJsCode, props);
+    workspaceRef.current = initialize(editorRef.current, setGetJsCode, setWorkspaceXml, props);
 
     new ResizeObserver(resizeBlockly).observe(containerRef.current);
   });

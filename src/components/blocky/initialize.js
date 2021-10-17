@@ -8,7 +8,7 @@ import 'blockly/blocks';
 import locale from 'blockly/msg/en';
 import { debounce } from '../../utils/debounce';
 
-export function initialize(editor, setGetJsCode, { initialXml, ...props }) {
+export function initialize(editor, setGetJsCode, setWorkspaceXml, { initialXml, ...props }) {
   initializeCustomBlocks(Blockly);
   console.log(`initializing blockly`);
   Blockly.setLocale(locale);
@@ -17,15 +17,17 @@ export function initialize(editor, setGetJsCode, { initialXml, ...props }) {
     toolbox,
     ...props,
   });
-  const localStorageKey = 'blocklySavedWorkspace_2'; // 'blocklySavedWorkspace'
+  const localStorageKey = 'blockly_saved_workspace'; // 'blocklySavedWorkspace'
 
   const onChange = (event) => {
     const xml = Blockly.Xml.workspaceToDom(workspace);
     const text = Blockly.Xml.domToText(xml);
+    setWorkspaceXml(text);
     localStorage.setItem(localStorageKey, text);
     setGetJsCode(Blockly.JavaScript.workspaceToCode(workspace));
   };
   const savedXML = localStorage.getItem(localStorageKey);
+  setWorkspaceXml(savedXML);
   workspace.addChangeListener(debounce(onChange, 500));
   Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(savedXML || initialXml), workspace);
   setGetJsCode(Blockly.JavaScript.workspaceToCode(workspace));

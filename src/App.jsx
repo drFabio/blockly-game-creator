@@ -11,8 +11,10 @@ import { WorkspaceContext } from './WorkspaceContext';
 function App() {
   const [currentPage, setCurrentPage] = useState(PAGE_MIX);
   const [getJsCode, setGetJsCode] = useState(() => '');
+  const [getWorkspaceXml, setWorkspaceXml] = useState(() => '');
+
   return (
-    <WorkspaceContext.Provider value={{ getJsCode, setGetJsCode }}>
+    <WorkspaceContext.Provider value={{ getJsCode, setGetJsCode, getWorkspaceXml, setWorkspaceXml }}>
       <Wrapper>
         <Navigator
           onApp={() => setCurrentPage(PAGE_APP)}
