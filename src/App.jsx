@@ -41,8 +41,7 @@ function App() {
               }}
               initialXml={`
 <xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="game_setup" x="0" y="0"></block>
-</xml>
+<block type="canvas_background_color" id="4SVzU|aWhU*Nh|9P+X" x="253" y="275"><value name="backgroundColor"><shadow type="colour_picker" id="*F3FFG@6zp?g?@C2[LO("><field name="COLOUR">#33ccff</field></shadow></value><next><block type="text_print" id="nwR,iP,?~nzM.3|5.94|"><value name="TEXT"><shadow type="text" id="ZuNhv^os)g9;0T!sty|"><field name="TEXT">Olá</field></shadow></value></block></next></block></xml>
       `}
             ></BlocklyEditor>
           )}
