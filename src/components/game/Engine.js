@@ -23,6 +23,7 @@ export class Engine {
   textAlign = "left";
   customCursor = false;
   scenario = {};
+  currentScenario = {};
   currentCode;
   isGameRunning = false;
   playerPosition = [10, 10];
@@ -38,6 +39,8 @@ export class Engine {
     this.proccessBlocks(this.currentCode);
   }
   startGame() {
+    console.log(`Should start the game with `, this.currentScenario);
+    this.scenario = { ...this.currentScenario };
     if (!this.scenario || this.isGameRunning) {
       return;
     }
@@ -221,21 +224,22 @@ export class Engine {
   }
 
   setScenario(scenario) {
-    this.scenario = { ...scenario };
+    console.log(`settign scenario`, scenario);
+    this.currentScenario = { ...scenario };
     const { player } = scenario;
     console.log({ player });
-    this.renderGame(this.scenario);
+    this.renderGame(this.currentScenario);
   }
 
-  renderGame(scenario) {
+  renderGame(scenarioToRender) {
     try {
-      const { player } = scenario;
-      console.log(`rendering the game`, scenario);
+      const { player } = scenarioToRender;
+      console.log(`rendering the game`, scenarioToRender);
       if (!player) {
         console.log(`No game without a  player`);
         return;
       }
-      this.renderFrame();
+      this.renderFrame(scenarioToRender);
     } catch (error) {
       console.error(error);
     }
@@ -257,8 +261,8 @@ export class Engine {
     console.log(`Setting player to ${(x, y)}`);
     this.renderFrame();
   }
-  renderPlayer(scenario) {
-    const { player } = scenario || this.scenario;
+  renderPlayer(scenarioToRender) {
+    const { player } = scenarioToRender || this.scenario;
 
     const { canvas, ctx } = this;
 
@@ -281,12 +285,12 @@ export class Engine {
     this.scenario.player = newAvatar;
   }
 
-  renderFrame() {
+  renderFrame(scenarioToRender) {
     console.log(`Render frame`);
     const { ctx, canvas } = this;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.drawBackground();
-    this.renderPlayer();
+    this.renderPlayer(scenarioToRender);
     this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
       this.drawRectangle(x, y, recWidth, recHeight, color, true);
     });
