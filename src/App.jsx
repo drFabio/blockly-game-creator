@@ -33,6 +33,11 @@ function App() {
                 scrollbars: true,
                 drag: true,
                 wheel: true,
+                
+              }}
+              zoom= {{
+                controls:true,
+                wheel: true
               }}
               initialXml={`
 <xml xmlns="http://www.w3.org/1999/xhtml">

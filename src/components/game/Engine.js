@@ -112,6 +112,7 @@ export class Engine {
   clearGameLoop() {
     window.clearInterval(this.gameInterval);
     window.clearInterval(this.enemyInterval);
+    this.isGameRunning = false;
   }
   drawImage(src, x, y, width = undefined, height = undefined) {
     const drawing = new Image();
@@ -272,10 +273,16 @@ export class Engine {
       canvas.height,
       Math.max(0, (canvas.height * percentY) / 100 - size / 2)
     );
+    console.log(`SHOULD DEAW ${imageMap[player]}`, player);
     this.drawImage(imageMap[player], x, y, size, size);
+  }
+  setAvatar(newAvatar) {
+    console.log(`SET AVATAR ,`, newAvatar);
+    this.scenario.player = newAvatar;
   }
 
   renderFrame() {
+    console.log(`Render frame`);
     const { ctx, canvas } = this;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.drawBackground();
@@ -304,6 +311,9 @@ export class Engine {
   }
 
   checkColision(obstacleX, obstacleY, obstacleWidth, obstacleHeight) {
+    if (!this.isGameRunning) {
+      return;
+    }
     const { canvas } = this;
     const size = (canvas.height * this.playerSize) / 100;
     const [percentX, percentY] = this.playerPosition;
@@ -378,8 +388,9 @@ export class Engine {
   }
   endGame() {
     this.clearGameLoop();
-
     this.intepretCode(this.scenario.onEnd());
+
     this.onGameEnd();
+    this.renderFrame();
   }
 }

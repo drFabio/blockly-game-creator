@@ -658,6 +658,7 @@ export const toolbox = {
         { kind: "block", type: "game_set_player_position" },
         { kind: "block", type: "game_set_player_position_x" },
         { kind: "block", type: "game_set_player_position_y" },
+        { kind: "block", type: "game_set_player_icon" },
         { kind: "block", type: "game_obstacle" },
         { kind: "block", type: "game_move_obstacle_x" },
         { kind: "block", type: "game_move_obstacle_y" },

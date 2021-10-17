@@ -21,6 +21,7 @@ import { gameSetPlayerPositionY } from "./gameSetPlayerPositionY";
 import { gameMoveObstacleX } from "./gameMoveObstacleX";
 import { gameMoveObstacleY } from "./gameMoveObstacleY";
 import { gameEndGame } from "./gameEndGame";
+import { setPlayerIcon } from "./setPlayerIcon";
 
 // TODO avoid this
 export function initializeCustomBlocks(Blockly) {
@@ -47,4 +48,5 @@ export function initializeCustomBlocks(Blockly) {
   gameEndGame(Blockly);
   playerDeadDuck(Blockly);
   playerDeadChicken(Blockly);
+  setPlayerIcon(Blockly);
 }
