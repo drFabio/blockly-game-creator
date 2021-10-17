@@ -3,7 +3,7 @@ export const definition = {
   colour: "#FFAABB",
   hat: "cap",
   message0:
-    "Game setup %1 initial speed %2 %3 enemy_generation_speed %4 %5 player %6 on start %7 on update %8 onEnemyGeneration %9 on end %10 on colision %11 on up key %12 on down key %13 on forward key %14 on back key %15",
+    "Game setup %1 initial speed %2 %3 enemy_generation_speed %4 %5 player %6 on start %7 on update %8 onEnemyGeneration %9 on end %10 on colision %11 on up key %12 on down key %13 on forward key %14 on back key %15 on obstacle otuside %16",
   args0: [
     {
       type: "input_dummy",
@@ -68,6 +68,10 @@ export const definition = {
     {
       type: "input_statement",
       name: "onBackward",
+    },
+    {
+      type: "input_statement",
+      name: "onObstacleOutside",
     },
   ],
   inputsInline: false,

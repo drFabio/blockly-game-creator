@@ -414,6 +414,7 @@ export class Engine {
       if (absoluteX + absoluteWidth > 0) {
         newObstacles.push(obstacle);
       } else {
+        this.scenario?.onObstacleOutside();
         console.log(`removing obstacle`);
       }
     });

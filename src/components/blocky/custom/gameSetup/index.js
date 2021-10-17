@@ -33,6 +33,10 @@ export const gameSetup = (Blockly) => {
       block,
       "onEnemyGeneration"
     );
+    const onObstacleOutside = Blockly.JavaScript.statementToCode(
+      block,
+      "onObstacleOutside"
+    );
 
     // TODO: Assemble JavaScript into code variable.
     const code = `engine.setScenario(
@@ -66,6 +70,9 @@ export const gameSetup = (Blockly) => {
         },
         onColision: () => {
           ${onColision}
+        },
+        onObstacleOutside: () => {
+          ${onObstacleOutside}
         }
       });\n`;
     return code;
