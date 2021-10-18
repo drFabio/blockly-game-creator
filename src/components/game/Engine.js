@@ -323,14 +323,23 @@ export class Engine {
     this.scenario.player = newAvatar;
   }
 
-  renderFrame(scenarioToRender) {
+  renderFrame(scenarioToRender, isRerender) {
     const { ctx, canvas } = this;
     this.clearFrame();
     this.drawBackground();
 
     this.renderPlayer(scenarioToRender);
     this.obstacles.forEach(({ x, y, recWidth, recHeight, color }) => {
-      this.drawRectangle(x, y, recWidth, recHeight, color, true);
+      this.drawRectangle(
+        x,
+        y,
+        recWidth,
+        recHeight,
+        color,
+        true,
+        false,
+        isRerender
+      );
     });
     this.targets = this.targets.filter(
       ({ x, y, recWidth, recHeight, color }) => {
@@ -341,7 +350,8 @@ export class Engine {
           recHeight,
           color,
           false,
-          true
+          true,
+          isRerender
         );
         return !collided;
       }
@@ -359,7 +369,16 @@ export class Engine {
     ctx.lineTo(canvas.width, canvas.height);
     ctx.stroke();
   }
-  drawRectangle(x, y, recWidth, recHeight, color, forceObstacle, forceTarget) {
+  drawRectangle(
+    x,
+    y,
+    recWidth,
+    recHeight,
+    color,
+    forceObstacle,
+    forceTarget,
+    isRerender
+  ) {
     const { ctx, canvas } = this;
     const { height, width } = canvas;
     const isObstacle = forceObstacle || this.withinObstacleGuard;
@@ -376,17 +395,22 @@ export class Engine {
     const absoluteWidth = (recWidth * width) / 100;
     const absoluteHeight = (recHeight * height) / 100;
     ctx.fillRect(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
-    const collided = this.checkColision(
-      absoluteX,
-      absoluteY,
-      absoluteWidth,
-      absoluteHeight
-    );
+    let collided = false;
+    if (!isRerender) {
+      collided = this.checkColision(
+        absoluteX,
+        absoluteY,
+        absoluteWidth,
+        absoluteHeight
+      );
+    }
+
     if (collided) {
       if (isObstacle) {
         this.intepretCode(this.scenario?.onColision());
       } else if (isTarget) {
         this.intepretCode(this.scenario?.onTargetGrabbed());
+        this.renderFrame(this.scenario, true);
       }
     }
     return collided;
@@ -510,7 +534,7 @@ export class Engine {
     this.clearGameLoop();
     window.setTimeout(() => {
       this.intepretCode(this.scenario.onEnd());
-      this.renderFrame();
+      this.renderFrame(this.scenario, true);
     }, 100);
 
     this.onGameEnd();
