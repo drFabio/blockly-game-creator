@@ -7,11 +7,17 @@ export const GameArea = ({ currentPage }) => {
   const containerRef = useRef();
   const canvasRef = useRef();
   const engineRef = useRef();
-  const [info,setInfo] = useState('Game stopped! click and press enter to play')
+  const [isGameRunning,setGameRunning] = useState(false)
   const { getJsCode } = useContext(WorkspaceContext);
 
   useEffect(() => {
-    if (!engineRef.current) return;
+    if (!engineRef.current) {
+      
+      return
+    };
+    if (isGameRunning) {
+      engineRef.current.onGameUpdated()
+    }
     engineRef.current.proccessBlocks(getJsCode);
   }, [getJsCode]);
 
@@ -23,8 +29,10 @@ export const GameArea = ({ currentPage }) => {
     engineRef.current.resize(width, height);
   }
   useEffect(() => {
-    if (engineRef.current) return;
-    engineRef.current = new Engine(canvasRef.current, () => setInfo(`Game Running`), () => setInfo(`Game stopped! click and press enter to play`));
+    if (engineRef.current) {
+      return
+    }
+    engineRef.current = new Engine(canvasRef.current, () => setGameRunning(true), () => setGameRunning(false));
     resizeCanvas();
     engineRef.current.proccessBlocks(getJsCode);
 
@@ -34,7 +42,7 @@ export const GameArea = ({ currentPage }) => {
 
     //  engineRef.current.drawImage(duckImage, 10, 10, 50, 50);
   }, [getJsCode]);
-
+  const info = isGameRunning ? 'Game Running' : 'Game stopped. Press enter to play'
   useEffect(() => {
     window.addEventListener('resize', resizeCanvas);
     return () => window.removeEventListener('resize', resizeCanvas);

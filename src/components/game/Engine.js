@@ -44,7 +44,7 @@ export class Engine {
   startGame() {
     console.log(`Should start the game with `, this.currentScenario);
     this.scenario = { ...this.currentScenario };
-    if (!this.scenario || this.isGameRunning) {
+    if (!this.scenario || this.isGameRunning || !this.scenario?.onStart) {
       return;
     }
     this.onGameStart();
@@ -120,17 +120,18 @@ export class Engine {
     this.ctx.font = "20px arial";
     document.addEventListener("keydown", this.listenToKeys.bind(this));
   }
+
   tearDown() {
     console.log(`Tearing game down`);
     this.clearGameLoop();
     document.removeEventListener("keydown", this.listenToKeys.bind(this));
   }
   clearGameLoop() {
+    this.isGameRunning = false;
     window.clearInterval(this.renderInterval);
     window.clearInterval(this.gameInterval);
     window.clearInterval(this.targetGenerationInterval);
     window.clearInterval(this.enemyInterval);
-    this.isGameRunning = false;
   }
   drawImage(src, x, y, width = undefined, height = undefined) {
     const drawing = new Image();
@@ -151,8 +152,6 @@ export class Engine {
   }
 
   proccessBlocks(code) {
-    const engine = this;
-    const canvas = this.canvas;
     this.currentCode = code;
     console.log(`Interpreting code \n${code}`);
     this.textSizeInPercentage = 5;
@@ -538,5 +537,12 @@ export class Engine {
     }, 100);
 
     this.onGameEnd();
+  }
+
+  onGameUpdated() {
+    if (this.isGameRunning) {
+      this.clearGameLoop();
+      this.onGameEnd();
+    }
   }
 }
